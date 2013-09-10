@@ -80,11 +80,11 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
-							<fmt:message key="GuestStayInfo ID:"/>:
+							<fmt:message key="guesttransactions.gueststayinfo.title"/>:
 						</td>
 						<td>
 							<form:input id="guesttransactions_guestStayInfo" path="guestStayInfo.id" cssStyle="width:300px;"/>
-							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "guesttransactions_guestStayInfo",widgetType : "dijit.form.NumberTextBox",widgetAttrs : {promptMessage: "<fmt:message key="Enter Guest Stay Info Id."/>"}})); </script>
+							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "guesttransactions_guestStayInfo",widgetType : "dijit.form.NumberTextBox",widgetAttrs : {promptMessage: "<fmt:message key="guesttransactions.gueststayinfo.help"/>"}})); </script>
 						</td>
 					</tr>
 				</tbody>

@@ -197,11 +197,11 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
-							<fmt:message key="GuestStayInfo ID:"/>:
+							<fmt:message key="gueststayinfo.guestinfo.title"/>:
 						</td>
 						<td>
 							<form:input id="gueststayinfo_guestInfo" path="guestInfo.id" cssStyle="width:300px;"/>
-							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "gueststayinfo_guestInfo",widgetType : "dijit.form.NumberTextBox",widgetAttrs : {promptMessage: "<fmt:message key="Enter guest info id."/>", constraints : {places:0}}})); </script>
+							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "gueststayinfo_guestInfo",widgetType : "dijit.form.NumberTextBox",widgetAttrs : {promptMessage: "<fmt:message key="gueststayinfo.guestinfo.help"/>", constraints : {places:0}}})); </script>
 						</td>
 					</tr>
 				</tbody>
