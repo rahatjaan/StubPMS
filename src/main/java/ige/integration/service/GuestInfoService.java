@@ -57,4 +57,5 @@ public interface GuestInfoService {
 	/**
 	 */
 	public GuestInfo findGuestInfoByPrimaryKey(Integer id_1);
+	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber);
 }

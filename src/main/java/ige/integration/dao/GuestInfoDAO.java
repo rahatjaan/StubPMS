@@ -19,6 +19,8 @@ public interface GuestInfoDAO extends JpaDao<GuestInfo> {
 	 *
 	 */
 	public Set<GuestInfo> findGuestInfoByFullAddressContaining(String fullAddress) throws DataAccessException;
+	
+	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber);
 
 	/**
 	 * JPQL Query - findGuestInfoByFullAddressContaining

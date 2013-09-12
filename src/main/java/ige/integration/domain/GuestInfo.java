@@ -38,6 +38,7 @@ import javax.persistence.*;
 		@NamedQuery(name = "findGuestInfoByHhNumber", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.hhNumber = ?1"),
 		@NamedQuery(name = "findGuestInfoByHhNumberContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.hhNumber like ?1"),
 		@NamedQuery(name = "findGuestInfoById", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.id = ?1"),
+		@NamedQuery(name = "findGuestBillInfo", query = "select myGuestInfo from GuestStayInfo myGuestStayInfo, GuestTransactions myGuestTransactions, GuestInfo myGuestInfo where myGuestInfo.email = ?1 and myGuestInfo.lastName = ?2 and myGuestStayInfo.roomNumber = ?3"),
 		@NamedQuery(name = "findGuestInfoByLastName", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.lastName = ?1"),
 		@NamedQuery(name = "findGuestInfoByLastNameContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.lastName like ?1"),
 		@NamedQuery(name = "findGuestInfoByMembershipNumber", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.membershipNumber = ?1"),
@@ -128,6 +129,13 @@ public class GuestInfo implements Serializable {
 	/**
 	 */
 
+	@Column(name = "email", length = 100)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String email;
+	/**
+	 */
+
 	@Column(name = "membership_number", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
@@ -149,7 +157,7 @@ public class GuestInfo implements Serializable {
 
 	/**
 	 */
-	@OneToMany(mappedBy = "guestInfo", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "guestInfo", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
 	@XmlElement(name = "", namespace = "")
 	java.util.Set<ige.integration.domain.GuestStayInfo> guestStayInfos;
 
@@ -322,6 +330,14 @@ public class GuestInfo implements Serializable {
 			guestStayInfos = new java.util.LinkedHashSet<ige.integration.domain.GuestStayInfo>();
 		}
 		return guestStayInfos;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	/**

@@ -675,4 +675,16 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 	public boolean canBeMerged(GuestInfo entity) {
 		return true;
 	}
+
+	@Transactional
+	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber) {
+		return findGuestBillInfo(emailAddress, lastName, roomNumber, -1, -1);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber, int startResult, int maxRows) throws DataAccessException {
+		Query query = createNamedQuery("findGuestBillInfo", startResult, maxRows, emailAddress, lastName, roomNumber);
+		return (GuestInfo) (query.getSingleResult());
+	}
 }

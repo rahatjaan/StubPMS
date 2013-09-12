@@ -21,14 +21,14 @@
 <!-- 	<context:component-scan base-package="ige.integration.service" scoped-proxy="interfaces" /> -->
 	<context:annotation-config/>
 
-    <wss:binding url="/ws/userservice">
+    <wss:binding url="/ws/soapservice">
         <wss:service>
-            <ws:service bean="#userOperationService">
+            <ws:service bean="#soapOperationService">
             </ws:service>
         </wss:service>
     </wss:binding>
 
-    <bean id="userOperationService" class="ige.integration.webservice.UserOperationService"/>
+    <bean id="soapOperationService" class="ige.integration.webservice.SoapOperationService"/>
 	
 	
 	

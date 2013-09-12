@@ -85,7 +85,7 @@ public class GuestTransactions implements Serializable {
 
 	/**
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({ @JoinColumn(name = "guest_stay_info_id", referencedColumnName = "id", nullable = false) })
 	@XmlTransient
 	GuestStayInfo guestStayInfo;

@@ -195,13 +195,13 @@ public class GuestStayInfo implements Serializable {
 
 	/**
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumns({ @JoinColumn(name = "guest_info_id", referencedColumnName = "id", nullable = false) })
 	@XmlTransient
 	GuestInfo guestInfo;
 	/**
 	 */
-	@OneToMany(mappedBy = "guestStayInfo", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "guestStayInfo", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
 	@XmlElement(name = "", namespace = "")
 	java.util.Set<ige.integration.domain.GuestTransactions> guestTransactionses;
 
