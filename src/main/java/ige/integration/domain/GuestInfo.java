@@ -39,6 +39,7 @@ import javax.persistence.*;
 		@NamedQuery(name = "findGuestInfoByHhNumberContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.hhNumber like ?1"),
 		@NamedQuery(name = "findGuestInfoById", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.id = ?1"),
 		@NamedQuery(name = "findGuestBillInfo", query = "select myGuestInfo from GuestStayInfo myGuestStayInfo, GuestTransactions myGuestTransactions, GuestInfo myGuestInfo where myGuestInfo.email = ?1 and myGuestInfo.lastName = ?2 and myGuestStayInfo.roomNumber = ?3"),
+		@NamedQuery(name = "findGuestInfoByEmailLastNameRoom", query = "select myGuestInfo from GuestStayInfo myGuestStayInfo, GuestInfo myGuestInfo where myGuestInfo.lastName = ?1 and myGuestInfo.email = ?2 and myGuestStayInfo.roomNumber = ?3"),		
 		@NamedQuery(name = "findGuestInfoByLastName", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.lastName = ?1"),
 		@NamedQuery(name = "findGuestInfoByLastNameContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.lastName like ?1"),
 		@NamedQuery(name = "findGuestInfoByMembershipNumber", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.membershipNumber = ?1"),
@@ -60,7 +61,7 @@ public class GuestInfo implements Serializable {
 
 	@Column(name = "id", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-	@Id
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	@XmlElement
 	Integer id;
 	/**

@@ -687,4 +687,17 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 		Query query = createNamedQuery("findGuestBillInfo", startResult, maxRows, emailAddress, lastName, roomNumber);
 		return (GuestInfo) (query.getSingleResult());
 	}
+
+	@Transactional
+	public GuestInfo findGuestByEmailLastNameRoom(String lastName,
+			String email, String roomNumber) {
+		return findGuestByEmailLastNameRoom(lastName, email, roomNumber, -1, -1);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Transactional
+	public GuestInfo findGuestByEmailLastNameRoom(String lastName, String email, String roomNumber, int startResult, int maxRows) throws DataAccessException {
+		Query query = createNamedQuery("findGuestInfoByEmailLastNameRoom", startResult, maxRows, lastName, email, roomNumber);
+		return (GuestInfo) (query.getSingleResult());
+	}
 }

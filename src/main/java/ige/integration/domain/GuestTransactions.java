@@ -44,7 +44,7 @@ public class GuestTransactions implements Serializable {
 
 	@Column(name = "id", nullable = false)
 	@Basic(fetch = FetchType.EAGER)
-	@Id
+	@Id @GeneratedValue(strategy=GenerationType.AUTO)
 	@XmlElement
 	Integer id;
 	/**

@@ -52,10 +52,11 @@ public interface GuestInfoService {
 	 * Save an existing GuestInfo entity
 	 * 
 	 */
-	public void saveGuestInfo(GuestInfo guestinfo_1);
+	public GuestInfo saveGuestInfo(GuestInfo guestinfo_1);
 
 	/**
 	 */
 	public GuestInfo findGuestInfoByPrimaryKey(Integer id_1);
+	public GuestInfo findGuestByEmailLastNameRoom(String lastName, String email, String roomNumber);
 	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber);
 }

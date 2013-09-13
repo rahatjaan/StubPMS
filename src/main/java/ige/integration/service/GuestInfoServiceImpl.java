@@ -2,7 +2,6 @@ package ige.integration.service;
 
 import ige.integration.dao.GuestInfoDAO;
 import ige.integration.dao.GuestStayInfoDAO;
-
 import ige.integration.domain.GuestInfo;
 import ige.integration.domain.GuestStayInfo;
 
@@ -10,9 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -150,7 +147,7 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 	 * 
 	 */
 	@Transactional
-	public void saveGuestInfo(GuestInfo guestinfo) {
+	public GuestInfo saveGuestInfo(GuestInfo guestinfo) {
 		GuestInfo existingGuestInfo = guestInfoDAO.findGuestInfoByPrimaryKey(guestinfo.getId());
 
 		if (existingGuestInfo != null) {
@@ -174,6 +171,7 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 			guestinfo = guestInfoDAO.store(guestinfo);
 		}
 		guestInfoDAO.flush();
+		return guestinfo;
 	}
 
 	/**
@@ -185,5 +183,10 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 
 	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber) {
 		return guestInfoDAO.findGuestBillInfo(emailAddress, lastName, roomNumber);
+	}
+
+	public GuestInfo findGuestByEmailLastNameRoom(String lastName,
+			String email, String roomNumber) {
+		return guestInfoDAO.findGuestByEmailLastNameRoom(lastName, email, roomNumber);
 	}
 }
