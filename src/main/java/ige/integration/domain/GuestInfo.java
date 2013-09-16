@@ -22,6 +22,7 @@ import javax.persistence.*;
 @NamedQueries({
 		@NamedQuery(name = "findAllGuestInfos", query = "select myGuestInfo from GuestInfo myGuestInfo"),
 		@NamedQuery(name = "findGuestInfoByAl", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.al = ?1"),
+		@NamedQuery(name = "findGuestInfoByEmail", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.email = ?1"),
 		@NamedQuery(name = "findGuestInfoByAlContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.al like ?1"),
 		@NamedQuery(name = "findGuestInfoByBonusAl", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.bonusAl = ?1"),
 		@NamedQuery(name = "findGuestInfoByBonusAlContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.bonusAl like ?1"),

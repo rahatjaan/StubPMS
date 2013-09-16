@@ -700,4 +700,9 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 		Query query = createNamedQuery("findGuestInfoByEmailLastNameRoom", startResult, maxRows, lastName, email, roomNumber);
 		return (GuestInfo) (query.getSingleResult());
 	}
+
+	public GuestInfo findGuestInfoByEmail(String emailAddress) throws DataAccessException {
+		Query query = createNamedQuery("findGuestInfoByEmail", -1, -1, emailAddress);
+		return (GuestInfo) (query.getSingleResult());
+	}
 }

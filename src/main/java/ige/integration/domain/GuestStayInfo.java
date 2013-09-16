@@ -192,6 +192,12 @@ public class GuestStayInfo implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
 	Integer reservationType;
+	
+	@Column(name = "isCheckedout")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Boolean checkedOut;
+	
 
 	/**
 	 */
@@ -547,5 +553,13 @@ public class GuestStayInfo implements Serializable {
 		if (id != null && !id.equals(equalCheck.id))
 			return false;
 		return true;
+	}
+
+	public Boolean getCheckedOut() {
+		return checkedOut;
+	}
+
+	public void setCheckedOut(Boolean checkedOut) {
+		this.checkedOut = checkedOut;
 	}
 }

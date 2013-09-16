@@ -189,4 +189,8 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 			String email, String roomNumber) {
 		return guestInfoDAO.findGuestByEmailLastNameRoom(lastName, email, roomNumber);
 	}
+
+	public GuestInfo findGuestByEmail(String emailAddress) {
+		return guestInfoDAO.findGuestInfoByEmail(emailAddress);
+	}
 }

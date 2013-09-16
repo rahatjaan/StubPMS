@@ -59,4 +59,5 @@ public interface GuestInfoService {
 	public GuestInfo findGuestInfoByPrimaryKey(Integer id_1);
 	public GuestInfo findGuestByEmailLastNameRoom(String lastName, String email, String roomNumber);
 	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber);
+	public GuestInfo findGuestByEmail(String emailAddress);
 }

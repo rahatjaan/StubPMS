@@ -180,6 +180,8 @@ public interface GuestInfoDAO extends JpaDao<GuestInfo> {
 	 *
 	 */
 	public GuestInfo findGuestInfoById(Integer id) throws DataAccessException;
+	
+	public GuestInfo findGuestInfoByEmail(String emailAddress) throws DataAccessException;
 
 	/**
 	 * JPQL Query - findGuestInfoById

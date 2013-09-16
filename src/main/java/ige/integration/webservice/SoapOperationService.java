@@ -8,7 +8,12 @@ import ige.integration.service.GuestInfoService;
 import ige.integration.service.GuestStayInfoService;
 import ige.integration.service.GuestTransactionsService;
 
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 
 import javax.jws.WebMethod;
@@ -65,6 +70,41 @@ public class SoapOperationService {
     		guestTransactionsService.saveGuestTransactions(gT);
     	}
     	return guestTransactions;
+    }
+    
+    @WebMethod(operationName = "guestCheckout")
+    public GuestInfo guestCheckout(@WebParam(name = "lastName") String userName,@WebParam(name = "email") String email,@WebParam(name = "creditCardNumber") String creditCardNumber) {
+    	GuestInfo gi = new GuestInfo();
+    	gi = guestInfoService.findGuestByEmail(email);
+    	if(null != gi){
+    		GuestStayInfo gsi = null;
+    		Collection c = gi.getGuestStayInfos();
+    		Iterator iter = c.iterator();
+    		gsi = (GuestStayInfo) iter.next();
+    		if(null != gsi){
+    			//Set credit Card number if provided is not null or empty.
+    			if(null != creditCardNumber && !"".equalsIgnoreCase(creditCardNumber)){
+    				gsi.setCardNumber(creditCardNumber);
+    			}
+    			//Set credit amount equal to total bill
+    			gsi.setCreditAmount(gsi.getTotalBill());
+    			//Set balance amount to 0
+    			BigDecimal bgd = new BigDecimal(0);
+    			gsi.setBalanceAmount(bgd);
+    			//Set departure date and time to now.
+    			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    			Date today = Calendar.getInstance().getTime(); 
+    			Calendar cal = Calendar.getInstance();
+    			cal.setTime(today);
+    			gsi.setDepartureDate(cal);
+    			//Set checked out
+    			gsi.setCheckedOut(true);
+    		}
+        	gi = guestInfoService.saveGuestInfo(gi);
+        	System.out.println("DATE IS: ++++++++++++ " +gsi.getDepartureDate());
+        	guestInfoStayService.saveGuestStayInfo(gsi);
+    	}
+        return gi;
     }
     
 }
