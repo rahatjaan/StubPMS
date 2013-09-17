@@ -311,6 +311,15 @@
 						&nbsp;
 						</td>
 					</tr>
+					<tr>
+						<td  class="label">
+							<fmt:message key="guestinfo.email.title"/>:
+						</td>
+						<td>
+							${gueststayinfo.guestInfo.email}
+						&nbsp;
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			<div class="navitem"><a class="button" href="${pageContext.request.contextPath}/editGuestStayInfoGuestInfo?gueststayinfo_id=${gueststayinfo.id}&guestinfo_id=${gueststayinfo.guestInfo.id}&"><span><img src="images/icons/edit.gif" /><fmt:message key="navigation.edit"/></span></a></div>

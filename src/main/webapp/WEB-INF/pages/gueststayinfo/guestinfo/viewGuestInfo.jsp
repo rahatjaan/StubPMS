@@ -132,6 +132,15 @@
 						&nbsp;
 						</td>
 					</tr>
+					<tr>
+						<td class="label" valign="top">
+							<fmt:message key="guestinfo.email.title"/>:
+						</td>
+						<td>
+							${guestinfo.email}
+						&nbsp;
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>

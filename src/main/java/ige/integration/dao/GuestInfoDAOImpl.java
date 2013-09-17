@@ -1,7 +1,9 @@
 package ige.integration.dao;
 
 import ige.integration.domain.GuestInfo;
+import ige.integration.messages.Messages;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -13,11 +15,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.skyway.spring.util.dao.AbstractJpaDao;
-
 import org.springframework.dao.DataAccessException;
-
 import org.springframework.stereotype.Repository;
-
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -677,15 +676,20 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 	}
 
 	@Transactional
-	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber) {
+	public Object findGuestBillInfo(String emailAddress, String lastName, String roomNumber) {
 		return findGuestBillInfo(emailAddress, lastName, roomNumber, -1, -1);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber, int startResult, int maxRows) throws DataAccessException {
-		Query query = createNamedQuery("findGuestBillInfo", startResult, maxRows, emailAddress, lastName, roomNumber);
-		return (GuestInfo) (query.getSingleResult());
+	public Object findGuestBillInfo(String emailAddress, String lastName, String roomNumber, int startResult, int maxRows) {
+		Query query = null;
+		try{
+			query = createNamedQuery("findGuestBillInfo", startResult, maxRows, emailAddress, lastName, roomNumber);
+			return (GuestInfo) (query.getSingleResult());
+		}catch(Exception e){
+			return Messages.CREDENTIALS_MESSAGE;
+		}
 	}
 
 	@Transactional
@@ -697,12 +701,20 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public GuestInfo findGuestByEmailLastNameRoom(String lastName, String email, String roomNumber, int startResult, int maxRows) throws DataAccessException {
-		Query query = createNamedQuery("findGuestInfoByEmailLastNameRoom", startResult, maxRows, lastName, email, roomNumber);
-		return (GuestInfo) (query.getSingleResult());
+		try{
+			Query query = createNamedQuery("findGuestInfoByEmailLastNameRoom", startResult, maxRows, lastName, email, roomNumber);
+			return (GuestInfo) (query.getSingleResult());
+		}catch(Exception e){
+			return null;
+		}
 	}
 
 	public GuestInfo findGuestInfoByEmail(String emailAddress) throws DataAccessException {
-		Query query = createNamedQuery("findGuestInfoByEmail", -1, -1, emailAddress);
-		return (GuestInfo) (query.getSingleResult());
+		try{
+			Query query = createNamedQuery("findGuestInfoByEmail", -1, -1, emailAddress);
+			return (GuestInfo) (query.getSingleResult());
+		}catch(Exception e){
+			return null;
+		}
 	}
 }

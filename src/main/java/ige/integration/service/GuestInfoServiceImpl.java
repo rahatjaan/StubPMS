@@ -181,7 +181,7 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 		return guestInfoDAO.findGuestInfoByPrimaryKey(id);
 	}
 
-	public GuestInfo findGuestBillInfo(String emailAddress, String lastName, String roomNumber) {
+	public Object findGuestBillInfo(String emailAddress, String lastName, String roomNumber) {
 		return guestInfoDAO.findGuestBillInfo(emailAddress, lastName, roomNumber);
 	}
 

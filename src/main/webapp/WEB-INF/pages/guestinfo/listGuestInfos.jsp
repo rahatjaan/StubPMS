@@ -30,6 +30,7 @@
 					<th class="thead"><fmt:message key="guestinfo.membershipnumber.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.bonuscode.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.groupname.title"/></th>
+					<th class="thead"><fmt:message key="guestinfo.email.title"/></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -111,6 +112,11 @@
 					<td nowrap="nowrap" class="tabletd">
 						
 							${current.groupName}
+						&nbsp;
+					</td>
+					<td nowrap="nowrap" class="tabletd">
+						
+							${current.email}
 						&nbsp;
 					</td>
 				</tr>

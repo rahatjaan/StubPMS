@@ -132,6 +132,15 @@
 						&nbsp;
 						</td>
 					</tr>
+					<tr>
+						<td class="label" valign="top">
+							<fmt:message key="guestinfo.email.title"/>:
+						</td>
+						<td>
+							${guestinfo.email}
+						&nbsp;
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			<div class="navitem"><a class="button" href="${pageContext.request.contextPath}/deleteGuestInfo?idKey=${guestinfo.id}&"><span><img src="images/icons/delete.gif" /><fmt:message key="navigation.delete"/></span></a></div>
