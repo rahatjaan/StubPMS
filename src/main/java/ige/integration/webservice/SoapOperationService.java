@@ -47,7 +47,11 @@ public class SoapOperationService {
     public Object getBillInfo(@WebParam(name = "lastName") String userName,@WebParam(name = "email") String email,@WebParam(name = "roomNumber") String roomNumber) {
     	GuestInfo info = null;
     	Object obj = null;
-    	obj = guestInfoService.findGuestBillInfo(email, userName, roomNumber);   
+    	try{
+    		obj = guestInfoService.findGuestBillInfo(email, userName, roomNumber);
+    	}catch(Exception e){
+    		return returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.GETBILLINFO_DESCRIPTION, "getBillInfo");
+    	}
     	if(Messages.CREDENTIALS_MESSAGE.equalsIgnoreCase(obj.toString())){
     		return returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.GETBILLINFO_DESCRIPTION, "getBillInfo");
     	}else{
@@ -58,31 +62,59 @@ public class SoapOperationService {
     @WebMethod(operationName = "guestCheckIn")
     public Object guestCheckIn(@WebParam(name = "guestInfo") GuestInfo guestInfo,@WebParam(name = "guestStayInfo") GuestStayInfo guestStayInfo) {
     	GuestInfo gi = null;
-    	gi = guestInfoService.saveGuestInfo(guestInfo);
-    	GuestInfo guestInfo1 = guestInfoService.findGuestInfoByPrimaryKey(gi.getId());
+    	try{
+    		gi = guestInfoService.saveGuestInfo(guestInfo);
+    	}catch(Exception e){
+    		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "guestCheckIn");
+    	}
+    	if(null == gi){
+    		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "guestCheckIn");
+    	}
+    	GuestInfo guestInfo1 = null;
+    	try{
+    		guestInfo1 = guestInfoService.findGuestInfoByPrimaryKey(gi.getId());
+    	}catch(Exception e){
+    		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "guestCheckIn");
+    	}
     	if(null == guestInfo1){
     		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "guestCheckIn");
     	}
     	guestStayInfo.setGuestInfo(guestInfo1);
-    	guestInfoStayService.saveGuestStayInfo(guestStayInfo);
+    	try{
+    		guestInfoStayService.saveGuestStayInfo(guestStayInfo);
+    	}catch(Exception e){
+    		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "guestCheckIn");
+    	}
         return guestStayInfo;
     }
     
     @WebMethod(operationName = "placeOrder")
     public Object[] placeOrder(@WebParam(name = "lastName") String lastName,@WebParam(name = "email") String email,@WebParam(name = "roomNumber") String roomNumber,@WebParam(name = "guestTransactions") GuestTransactions[] guestTransactions) {
     	GuestInfo gi = null;
-    	gi = guestInfoService.findGuestByEmailLastNameRoom(lastName,email,roomNumber);
+    	try{
+    		gi = guestInfoService.findGuestByEmailLastNameRoom(lastName,email,roomNumber);
+    	}catch(Exception e){
+    		Object [] obj = new Object[1];
+    		obj[0] = returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.GETBILLINFO_DESCRIPTION, "placeOrder");
+    		return obj;
+    	}
     	if(null == gi){
     		Object [] obj = new Object[1];
     		obj[0] = returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.GETBILLINFO_DESCRIPTION, "placeOrder");
     		return obj;
     	}
-    	for(GuestTransactions gT:guestTransactions){
-    		Collection c = gi.getGuestStayInfos();
-    		Iterator iter = c.iterator();
-    		GuestStayInfo first = (GuestStayInfo) iter.next();
-    		gT.setGuestStayInfo(first);
-    		guestTransactionsService.saveGuestTransactions(gT);
+    	try{
+	    	for(GuestTransactions gT:guestTransactions){
+	    		Collection c = gi.getGuestStayInfos();
+	    		Iterator iter = c.iterator();
+	    		GuestStayInfo first = (GuestStayInfo) iter.next();
+	    		gT.setGuestStayInfo(first);
+	    		guestTransactionsService.saveGuestTransactions(gT);
+	    	}
+    	}catch(Exception e){
+    		Object [] obj = new Object[1];
+    		obj[0] = returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "placeOrder");
+    		return obj;
     	}
     	return guestTransactions;
     }
@@ -91,40 +123,52 @@ public class SoapOperationService {
     public Object[] guestCheckout(@WebParam(name = "lastName") String userName,@WebParam(name = "email") String email,@WebParam(name = "creditCardNumber") String creditCardNumber,@WebParam(name = "roomNumber") String roomNumber) {
     	GuestInfo gi = null;
     	GuestTransactions [] gt = null;
-    	gi = guestInfoService.findGuestByEmailLastNameRoom(userName, email, roomNumber);
+    	try{
+    		gi = guestInfoService.findGuestByEmailLastNameRoom(userName, email, roomNumber);
+    	}catch(Exception e){
+    		Object [] obj = new Object[1];
+    		obj[0] = returnFaultObject(Messages.FAULT_CODE_CREDENTIALS,Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.CHECKOUT_DESCRIPTION, "guestCheckout");
+    		return obj;
+    	}
     	if(null != gi){
-    		GuestStayInfo gsi = null;
-    		Collection c = gi.getGuestStayInfos();
-    		Iterator iter = c.iterator();
-    		gsi = (GuestStayInfo) iter.next();
-    		gt = new GuestTransactions[gsi.getGuestTransactionses().size()];
-    		int index = 0;
-    		for(GuestTransactions gT:gsi.getGuestTransactionses()){
-    			gt[index] = gT;
-    			index++;
-        	}
-    		if(null != gsi){
-    			//Set credit Card number if provided is not null or empty.
-    			if(null != creditCardNumber && !"".equalsIgnoreCase(creditCardNumber)){
-    				gsi.setCardNumber(creditCardNumber);
-    			}
-    			//Set credit amount equal to total bill
-    			gsi.setCreditAmount(gsi.getTotalBill());
-    			//Set balance amount to 0
-    			BigDecimal bgd = new BigDecimal(0);
-    			gsi.setBalanceAmount(bgd);
-    			//Set departure date and time to now.
-    			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    			Date today = Calendar.getInstance().getTime(); 
-    			Calendar cal = Calendar.getInstance();
-    			cal.setTime(today);
-    			gsi.setDepartureDate(cal);
-    			//Set checked out
-    			gsi.setCheckedOut(true);
+    		try{
+	    		GuestStayInfo gsi = null;
+	    		Collection c = gi.getGuestStayInfos();
+	    		Iterator iter = c.iterator();
+	    		gsi = (GuestStayInfo) iter.next();
+	    		gt = new GuestTransactions[gsi.getGuestTransactionses().size()];
+	    		int index = 0;
+	    		for(GuestTransactions gT:gsi.getGuestTransactionses()){
+	    			gt[index] = gT;
+	    			index++;
+	        	}
+	    		if(null != gsi){
+	    			//Set credit Card number if provided is not null or empty.
+	    			if(null != creditCardNumber && !"".equalsIgnoreCase(creditCardNumber)){
+	    				gsi.setCardNumber(creditCardNumber);
+	    			}
+	    			//Set credit amount equal to total bill
+	    			gsi.setCreditAmount(gsi.getTotalBill());
+	    			//Set balance amount to 0
+	    			BigDecimal bgd = new BigDecimal(0);
+	    			gsi.setBalanceAmount(bgd);
+	    			//Set departure date and time to now.
+	    			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    			Date today = Calendar.getInstance().getTime(); 
+	    			Calendar cal = Calendar.getInstance();
+	    			cal.setTime(today);
+	    			gsi.setDepartureDate(cal);
+	    			//Set checked out
+	    			gsi.setCheckedOut(true);
+	    		}
+	        	gi = guestInfoService.saveGuestInfo(gi);
+	        	System.out.println("DATE IS: ++++++++++++ " +gsi.getDepartureDate());
+	        	guestInfoStayService.saveGuestStayInfo(gsi);
+    		}catch(Exception e){
+    			Object [] obj = new Object[1];
+        		obj[0] = returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "guestCheckout");
+        		return obj;
     		}
-        	gi = guestInfoService.saveGuestInfo(gi);
-        	System.out.println("DATE IS: ++++++++++++ " +gsi.getDepartureDate());
-        	guestInfoStayService.saveGuestStayInfo(gsi);
     	}else{
     		Object [] obj = new Object[1];
     		obj[0] = returnFaultObject(Messages.FAULT_CODE_CREDENTIALS,Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.CHECKOUT_DESCRIPTION, "guestCheckout");
