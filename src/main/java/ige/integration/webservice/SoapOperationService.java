@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -87,14 +88,21 @@ public class SoapOperationService {
     }
     
     @WebMethod(operationName = "guestCheckout")
-    public Object guestCheckout(@WebParam(name = "lastName") String userName,@WebParam(name = "email") String email,@WebParam(name = "creditCardNumber") String creditCardNumber) {
+    public Object[] guestCheckout(@WebParam(name = "lastName") String userName,@WebParam(name = "email") String email,@WebParam(name = "creditCardNumber") String creditCardNumber,@WebParam(name = "roomNumber") String roomNumber) {
     	GuestInfo gi = null;
-    	gi = guestInfoService.findGuestByEmail(email);
+    	GuestTransactions [] gt = null;
+    	gi = guestInfoService.findGuestByEmailLastNameRoom(userName, email, roomNumber);
     	if(null != gi){
     		GuestStayInfo gsi = null;
     		Collection c = gi.getGuestStayInfos();
     		Iterator iter = c.iterator();
     		gsi = (GuestStayInfo) iter.next();
+    		gt = new GuestTransactions[gsi.getGuestTransactionses().size()];
+    		int index = 0;
+    		for(GuestTransactions gT:gsi.getGuestTransactionses()){
+    			gt[index] = gT;
+    			index++;
+        	}
     		if(null != gsi){
     			//Set credit Card number if provided is not null or empty.
     			if(null != creditCardNumber && !"".equalsIgnoreCase(creditCardNumber)){
@@ -118,9 +126,11 @@ public class SoapOperationService {
         	System.out.println("DATE IS: ++++++++++++ " +gsi.getDepartureDate());
         	guestInfoStayService.saveGuestStayInfo(gsi);
     	}else{
-    		return returnFaultObject(Messages.FAULT_CODE_CREDENTIALS,Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.CHECKOUT_DESCRIPTION, "guestCheckout");
+    		Object [] obj = new Object[1];
+    		obj[0] = returnFaultObject(Messages.FAULT_CODE_CREDENTIALS,Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.CHECKOUT_DESCRIPTION, "guestCheckout");
+    		return obj;
     	}
-        return gi;
+        return gt;
     }
     
     private String returnFaultObject(String code, String message, String reason, String description, String service){
