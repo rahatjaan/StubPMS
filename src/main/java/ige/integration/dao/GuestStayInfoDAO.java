@@ -3,12 +3,10 @@ package ige.integration.dao;
 import ige.integration.domain.GuestStayInfo;
 
 import java.math.BigDecimal;
-
 import java.util.Calendar;
 import java.util.Set;
 
 import org.skyway.spring.util.dao.JpaDao;
-
 import org.springframework.dao.DataAccessException;
 
 /**

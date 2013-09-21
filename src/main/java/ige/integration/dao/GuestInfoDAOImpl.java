@@ -1,12 +1,13 @@
 package ige.integration.dao;
 
 import ige.integration.domain.GuestInfo;
+import ige.integration.domain.GuestStayInfo;
 import ige.integration.messages.Messages;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -684,9 +685,29 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 	@Transactional
 	public Object findGuestBillInfo(String emailAddress, String lastName, String roomNumber, int startResult, int maxRows) {
 		Query query = null;
+		System.out.println("NAME: "+lastName+"ROOM: "+roomNumber+"EMAIL: "+emailAddress);
 		try{
 			query = createNamedQuery("findGuestBillInfo", startResult, maxRows, emailAddress, lastName, roomNumber);
-			return (GuestInfo) (query.getSingleResult());
+			List<GuestInfo> ob = query.getResultList();
+			int i = 0;
+			System.out.println("LIST SIZE BILL INFO IS: "+ob.size());
+			while(ob.size() > i){
+				GuestInfo o = ob.get(i);
+				Set<GuestStayInfo> se = o.getGuestStayInfos();
+				System.out.println("GUEST INFO LIST SIZE BILL INFO IS: "+se.size());
+				for (GuestStayInfo s : se) {
+					System.out.println("Lastname: "+o.getLastName()+"   Email: "+o.getEmail()+"   Room: "+s.getRoomNumber());
+					System.out.println("NAME: "+lastName+"ROOM: "+roomNumber+"EMAIL: "+emailAddress);
+				    if(o.getLastName().equalsIgnoreCase(lastName) && o.getEmail().equalsIgnoreCase(emailAddress) && s.getRoomNumber().equalsIgnoreCase(roomNumber)){
+				    	Set<GuestStayInfo> sss = new HashSet<GuestStayInfo>();
+				    	sss.add(s);
+				    	o.setGuestStayInfos(sss);
+				    	return o;
+				    }
+				}		
+				i++;
+			}
+			return Messages.CREDENTIALS_MESSAGE;
 		}catch(Exception e){
 			return Messages.CREDENTIALS_MESSAGE;
 		}
@@ -702,8 +723,27 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 	@Transactional
 	public GuestInfo findGuestByEmailLastNameRoom(String lastName, String email, String roomNumber, int startResult, int maxRows) throws DataAccessException {
 		try{
+			System.out.println("NAME: "+lastName+"ROOM: "+roomNumber+"EMAIL: "+email);
 			Query query = createNamedQuery("findGuestInfoByEmailLastNameRoom", startResult, maxRows, lastName, email, roomNumber);
-			return (GuestInfo) (query.getSingleResult());
+			List<GuestInfo> ob = query.getResultList();
+			System.out.println("SIZE IN OTHER: "+ob.size());
+			int i = 0;
+			while(ob.size() > i){
+				GuestInfo o = ob.get(i);
+				Set<GuestStayInfo> se = o.getGuestStayInfos();
+				System.out.println("GUEST INFO SIZE IN OTHER: "+se.size());
+				for (GuestStayInfo s : se) {
+					System.out.println("Lastname: "+o.getLastName()+"   Email: "+o.getEmail()+"   Room: "+s.getRoomNumber());
+				    if(o.getLastName().equalsIgnoreCase(lastName) && o.getEmail().equalsIgnoreCase(email) && s.getRoomNumber().equalsIgnoreCase(roomNumber)){
+				    	Set<GuestStayInfo> sss = new HashSet<GuestStayInfo>();
+				    	sss.add(s);
+				    	o.setGuestStayInfos(sss);
+				    	return o;
+				    }
+				}	
+				i++;
+			}
+			return null;
 		}catch(Exception e){
 			return null;
 		}

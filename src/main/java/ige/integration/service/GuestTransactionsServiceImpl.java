@@ -2,7 +2,6 @@ package ige.integration.service;
 
 import ige.integration.dao.GuestStayInfoDAO;
 import ige.integration.dao.GuestTransactionsDAO;
-
 import ige.integration.domain.GuestStayInfo;
 import ige.integration.domain.GuestTransactions;
 
@@ -10,9 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -1,22 +1,14 @@
 package ige.integration.web;
 
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-
 import org.springframework.context.ApplicationContext;
-
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-
 import org.springframework.test.context.ContextConfiguration;
-
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.RequestScope;
 import org.springframework.web.context.request.ServletRequestAttributes;

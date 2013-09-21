@@ -2,26 +2,20 @@ package ige.integration.web;
 
 import ige.integration.dao.GuestInfoDAO;
 import ige.integration.dao.GuestStayInfoDAO;
-
 import ige.integration.domain.GuestInfo;
 import ige.integration.domain.GuestStayInfo;
-
 import ige.integration.service.GuestInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
-
 import org.springframework.web.bind.WebDataBinder;
-
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.servlet.ModelAndView;
 
 /**
