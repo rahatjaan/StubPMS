@@ -15,24 +15,7 @@
 		<form:form action="${pageContext.request.contextPath}/saveGuestInfo" method="POST" modelAttribute="guestinfo">
 			<table cellpadding="0" cellspacing="0" id="viewTable">
 				<tbody>
-					<tr>
-						<td class="label" valign="top">
-							<fmt:message key="guestinfo.id.title"/>:
-						</td>
-						<td>
-							<c:choose>
-								<c:when test='${newFlag}' >
-							<form:input id="guestinfo_id" path="id" cssStyle="width:300px;"/>
-							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "guestinfo_id",widgetType : "dijit.form.NumberTextBox",widgetAttrs : {promptMessage: "<fmt:message key="guestinfo.id.help"/>", constraints : {places:0}}})); </script>
-								</c:when>
-								<c:otherwise>
-							${guestinfo.id}
-						&nbsp;
-									<form:hidden id="guestinfo_id" path="id"/>
-								</c:otherwise>
-							</c:choose>
-						</td>
-					</tr>
+					
 					<tr>
 						<td class="label" valign="top">
 							<fmt:message key="guestinfo.firstname.title"/>:

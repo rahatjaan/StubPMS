@@ -5,6 +5,13 @@ import ige.integration.dao.GuestStayInfoDAO;
 import ige.integration.domain.GuestInfo;
 import ige.integration.domain.GuestStayInfo;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -171,6 +178,41 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 			guestinfo = guestInfoDAO.store(guestinfo);
 		}
 		guestInfoDAO.flush();
+
+		// Call ESB here
+		try{
+			GuestStayInfo gsi = null;
+			Collection c = guestinfo.getGuestStayInfos();
+			Iterator iter = c.iterator();
+			gsi = (GuestStayInfo) iter.next();
+			
+			String urlParameters = "{  'guestCheckIn'= { 'tenantId'='1',   'guestInfo'= {    'firstName'= '"+guestinfo.getFirstName()+"',    'lastName'= '"+guestinfo.getLastName()+"',   'email'= '"+guestinfo.getEmail()+"'},    'guestStayInfo'= {    'roomNumber'= '"+gsi.getRoomNumber()+"',   'arrivalDate'= '"+gsi.getArrivalDate()+"',    'departureDate'= '"+gsi.getDepartureDate()+"'    }  }}";
+			try{
+				URL url = new URL("http://50.31.3.184:8888/guestCheckIn");
+				URLConnection conn = url.openConnection();
+		
+				conn.setDoOutput(true);
+		
+				OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+		
+				writer.write(urlParameters);
+				writer.flush();
+		
+				String line;
+				BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		
+				while ((line = reader.readLine()) != null) {
+				    System.out.println(line);
+				}
+				writer.close();
+				reader.close();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		// Ends here
 		return guestinfo;
 	}
 
