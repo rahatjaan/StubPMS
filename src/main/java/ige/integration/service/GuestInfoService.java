@@ -60,4 +60,10 @@ public interface GuestInfoService {
 	public GuestInfo findGuestByEmailLastNameRoom(String lastName, String email, String roomNumber);
 	public Object findGuestBillInfo(String emailAddress, String lastName, String roomNumber);
 	public GuestInfo findGuestByEmail(String emailAddress);
+	
+	
+	public GuestInfo findGuestInfoByConfirmationNumber(String confirmationNumber);
+	public GuestInfo findGuestInfoByLastNameCreditCard(String lastName, String creditCard);
+	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber);
+	
 }

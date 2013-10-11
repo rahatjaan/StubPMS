@@ -53,6 +53,15 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
+							<fmt:message key="gueststayinfo.numberOfDays.title"/>:
+						</td>
+						<td>
+							${gueststayinfo.numberOfDays}
+						&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td class="label" valign="top">
 							<fmt:message key="gueststayinfo.departuredate.title"/>:
 						</td>
 						<td>

@@ -10,7 +10,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -155,9 +157,11 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 	 */
 	@Transactional
 	public GuestInfo saveGuestInfo(GuestInfo guestinfo) {
+		System.out.println("PRIMARY KEY IS: "+guestinfo.getId());
 		GuestInfo existingGuestInfo = guestInfoDAO.findGuestInfoByPrimaryKey(guestinfo.getId());
-
+		
 		if (existingGuestInfo != null) {
+			System.out.println("FOUND");
 			if (existingGuestInfo != guestinfo) {
 				existingGuestInfo.setId(guestinfo.getId());
 				existingGuestInfo.setFirstName(guestinfo.getFirstName());
@@ -185,6 +189,11 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 			Collection c = guestinfo.getGuestStayInfos();
 			Iterator iter = c.iterator();
 			gsi = (GuestStayInfo) iter.next();
+			Calendar d1 = gsi.getArrivalDate();
+			int days = gsi.getNumberOfDays();
+			d1.add(Calendar.DAY_OF_MONTH, days);
+			if(0 < days)
+				gsi.setDepartureDate(d1);
 			
 			String urlParameters = "{  'guestCheckIn'= { 'tenantId'='1',   'guestInfo'= {    'firstName'= '"+guestinfo.getFirstName()+"',    'lastName'= '"+guestinfo.getLastName()+"',   'email'= '"+guestinfo.getEmail()+"'},    'guestStayInfo'= {    'roomNumber'= '"+gsi.getRoomNumber()+"',   'arrivalDate'= '"+gsi.getArrivalDate()+"',    'departureDate'= '"+gsi.getDepartureDate()+"'    }  }}";
 			try{
@@ -234,5 +243,22 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 
 	public GuestInfo findGuestByEmail(String emailAddress) {
 		return guestInfoDAO.findGuestInfoByEmail(emailAddress);
+	}
+	
+	public GuestInfo findGuestInfoByConfirmationNumber(String confirmationNumber) {
+		return guestInfoDAO.findGuestInfoByConfirmationNumbers(confirmationNumber);
+	}
+	
+	public GuestInfo findGuestInfoByLastNameCreditCard(String lastName, String creditCard) {
+		GuestStayInfo gsi = guestInfoDAO.findGuestInfoByLastNameCreditCard(lastName, creditCard);
+		GuestInfo gi = new GuestInfo();
+		Set<GuestStayInfo> g = new HashSet<GuestStayInfo>();
+		g.add(gsi);
+		gi.setGuestStayInfos(g);
+		return gi;
+	}
+	
+	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber) {
+		return guestInfoDAO.findGuestInfoByLoyaltyNumber(loyaltyNumber);
 	}
 }

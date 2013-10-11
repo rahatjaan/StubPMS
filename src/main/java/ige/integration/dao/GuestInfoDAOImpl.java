@@ -5,7 +5,9 @@ import ige.integration.domain.GuestStayInfo;
 import ige.integration.messages.Messages;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -752,6 +754,48 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 	public GuestInfo findGuestInfoByEmail(String emailAddress) throws DataAccessException {
 		try{
 			Query query = createNamedQuery("findGuestInfoByEmail", -1, -1, emailAddress);
+			return (GuestInfo) (query.getSingleResult());
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	public GuestInfo findGuestInfoByConfirmationNumbers(
+			String confirmationNumber) {
+		try{
+			Query query = createNamedQuery("findGuestInfoByConfirmationNumber", -1, -1, confirmationNumber);
+			return (GuestInfo) (query.getSingleResult());
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	public GuestStayInfo findGuestInfoByLastNameCreditCard(String lastName,
+			String creditCard) {
+		try{
+			Query query = createNamedQuery("findGuestInfoByLastName", -1, -1, lastName);
+			List<GuestInfo> li = query.getResultList();
+			for(GuestInfo gi: li){
+				Collection c = gi.getGuestStayInfos();
+	    		Iterator iter = c.iterator();
+	    		GuestStayInfo first = (GuestStayInfo) iter.next();
+	    		int length = first.getCardNumber().length();
+	    		System.out.println(first.getCardNumber().substring(length-4));
+	    		if(5 < length){
+					if(first.getCardNumber().substring(length-4).equalsIgnoreCase(creditCard)){
+						return first;
+					}
+	    		}
+			}
+			return null;
+		}catch(Exception e){
+			return null;
+		}
+	}
+
+	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber) {
+		try{
+			Query query = createNamedQuery("findGuestInfoByHhNumber", -1, -1, loyaltyNumber);
 			return (GuestInfo) (query.getSingleResult());
 		}catch(Exception e){
 			return null;

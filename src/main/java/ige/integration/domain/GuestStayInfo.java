@@ -121,6 +121,11 @@ public class GuestStayInfo implements Serializable {
 	BigDecimal totalBill;
 	/**
 	 */
+	
+	@Column(name = "numberOfDays")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	Integer numberOfDays;
 
 	@Column(name = "payment_type", length = 20)
 	@Basic(fetch = FetchType.EAGER)
@@ -268,6 +273,16 @@ public class GuestStayInfo implements Serializable {
 	 */
 	public Calendar getArrivalDate() {
 		return this.arrivalDate;
+	}
+	
+	
+
+	public Integer getNumberOfDays() {
+		return numberOfDays;
+	}
+
+	public void setNumberOfDays(Integer numberOfDays) {
+		this.numberOfDays = numberOfDays;
 	}
 
 	/**

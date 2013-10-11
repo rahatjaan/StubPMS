@@ -1,6 +1,7 @@
 package ige.integration.dao;
 
 import ige.integration.domain.GuestInfo;
+import ige.integration.domain.GuestStayInfo;
 
 import java.util.Set;
 
@@ -343,5 +344,9 @@ public interface GuestInfoDAO extends JpaDao<GuestInfo> {
 	 *
 	 */
 	public Set<GuestInfo> findGuestInfoByLastName(String lastName_1, int startResult, int maxRows) throws DataAccessException;
+	
+	public GuestInfo findGuestInfoByConfirmationNumbers(String confirmationNumber);
+	public GuestStayInfo findGuestInfoByLastNameCreditCard(String lastName, String creditCard);
+	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber);
 
 }

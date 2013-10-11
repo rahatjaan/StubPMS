@@ -17,6 +17,11 @@
 				<tbody>
 					
 					<tr>
+						<td>
+							<form:hidden id="guestinfo_id" path="id" value=""/>
+						</td>
+					</tr>
+					<tr>
 						<td class="label" valign="top">
 							<fmt:message key="guestinfo.firstname.title"/>:
 						</td>

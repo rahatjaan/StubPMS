@@ -15,6 +15,11 @@
 		<form:form action="${pageContext.request.contextPath}/saveGuestStayInfo" method="POST" modelAttribute="gueststayinfo">
 			<table cellpadding="0" cellspacing="0" id="viewTable">
 				<tbody>
+				<tr>
+						<td>
+							<form:hidden id="gueststayinfo_id" path="id" value=""/>
+						</td>
+					</tr>
 					
 					<tr>
 						<td class="label" valign="top">
@@ -41,6 +46,15 @@
 						<td>
 							<input id="gueststayinfo_arrivalDate" name="arrivalDate" type="text" value="<fmt:formatDate value="${gueststayinfo.arrivalDate.time}" pattern="MM/dd/yyyy h:mm a"/>" style="width:300px;"/>
 							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "gueststayinfo_arrivalDate",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="navigation.dateTime.title"/>"}})); </script>
+						</td>
+					</tr>
+					<tr>
+						<td class="label" valign="top">
+							<fmt:message key="gueststayinfo.numberOfDays.title"/>:
+						</td>
+						<td>
+							<input id="gueststayinfo_numberOfDays" name="numberOfDays" type="text" style="width:300px;"/>
+							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "gueststayinfo_numberOfDays",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="gueststayinfo.numberOfDays.help"/>"}})); </script>
 						</td>
 					</tr>
 					<tr>

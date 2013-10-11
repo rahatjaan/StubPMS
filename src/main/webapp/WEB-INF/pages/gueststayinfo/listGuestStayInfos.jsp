@@ -21,6 +21,7 @@
 					<th class="thead"><fmt:message key="gueststayinfo.roomnumber.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.floornumber.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.arrivaldate.title"/></th>
+					<th class="thead"><fmt:message key="gueststayinfo.numberOfDays.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.departuredate.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.folionumber.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.totalbill.title"/></th>
@@ -72,6 +73,11 @@
 					<td nowrap="nowrap" class="tabletd">
 						
 							<fmt:formatDate dateStyle="short" type="both" value="${current.arrivalDate.time}"/>
+						&nbsp;
+					</td>
+					<td nowrap="nowrap" class="tabletd">
+						
+							${current.numberOfDays}
 						&nbsp;
 					</td>
 					<td nowrap="nowrap" class="tabletd">

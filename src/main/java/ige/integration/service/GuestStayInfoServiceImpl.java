@@ -7,6 +7,7 @@ import ige.integration.domain.GuestInfo;
 import ige.integration.domain.GuestStayInfo;
 import ige.integration.domain.GuestTransactions;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Set;
 
@@ -215,13 +216,26 @@ public class GuestStayInfoServiceImpl implements GuestStayInfoService {
 		GuestStayInfo existingGuestStayInfo = guestStayInfoDAO.findGuestStayInfoByPrimaryKey(gueststayinfo.getId());
 
 		if (existingGuestStayInfo != null) {
+			System.out.println("INSIDE NOW");
+			if (null!=existingGuestStayInfo.getArrivalDate()) {
+				Calendar d1 = existingGuestStayInfo.getArrivalDate();
+			System.out.println("1");
+			if(null!=gueststayinfo.getNumberOfDays()){
+			int days = gueststayinfo.getNumberOfDays();
+			System.out.println("2");
+			d1.add(Calendar.DAY_OF_MONTH, days);
+			if(0 < days)
+				existingGuestStayInfo.setDepartureDate(d1);
+			}
+			}
 			if (existingGuestStayInfo != gueststayinfo) {
 				existingGuestStayInfo.setId(gueststayinfo.getId());
 				existingGuestStayInfo.setRoomNumber(gueststayinfo.getRoomNumber());
 				existingGuestStayInfo.setFloorNumber(gueststayinfo.getFloorNumber());
 				existingGuestStayInfo.setArrivalDate(gueststayinfo.getArrivalDate());
-				existingGuestStayInfo.setDepartureDate(gueststayinfo.getDepartureDate());
+				//existingGuestStayInfo.setDepartureDate(gueststayinfo.getDepartureDate());
 				existingGuestStayInfo.setFolioNumber(gueststayinfo.getFolioNumber());
+				existingGuestStayInfo.setNumberOfDays(gueststayinfo.getNumberOfDays());
 				existingGuestStayInfo.setTotalBill(gueststayinfo.getTotalBill());
 				existingGuestStayInfo.setPaymentType(gueststayinfo.getPaymentType());
 				existingGuestStayInfo.setCreditAmount(gueststayinfo.getCreditAmount());
@@ -238,6 +252,11 @@ public class GuestStayInfoServiceImpl implements GuestStayInfoService {
 			}
 			gueststayinfo = guestStayInfoDAO.store(existingGuestStayInfo);
 		} else {
+			Calendar d1 = gueststayinfo.getArrivalDate();
+			int days = gueststayinfo.getNumberOfDays();
+			d1.add(Calendar.DAY_OF_MONTH, days);
+			if(0 < days)
+				gueststayinfo.setDepartureDate(d1);
 			gueststayinfo = guestStayInfoDAO.store(gueststayinfo);
 		}
 		guestStayInfoDAO.flush();

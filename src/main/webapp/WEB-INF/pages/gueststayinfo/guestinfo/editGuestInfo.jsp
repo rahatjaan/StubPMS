@@ -15,6 +15,11 @@
 		<form:form action="${pageContext.request.contextPath}/saveGuestStayInfoGuestInfo" method="POST" modelAttribute="guestinfo">
 			<table cellpadding="0" cellspacing="0" id="viewTable">
 				<tbody>
+				<tr>
+						<td>
+							<form:hidden id="guestinfo_id" path="id" value=""/>
+						</td>
+					</tr>
 					
 					<tr>
 						<td class="label" valign="top">

@@ -4,6 +4,7 @@ package ige.integration.webservice;
 import ige.integration.domain.GuestInfo;
 import ige.integration.domain.GuestStayInfo;
 import ige.integration.domain.GuestTransactions;
+import ige.integration.domain.ReservationDetails;
 import ige.integration.messages.Messages;
 import ige.integration.service.GuestInfoService;
 import ige.integration.service.GuestStayInfoService;
@@ -12,10 +13,13 @@ import ige.integration.service.GuestTransactionsService;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -48,6 +52,34 @@ public class SoapOperationService {
     	Object obj = null;
     	try{
     		obj = guestInfoService.findGuestBillInfo(email, userName, roomNumber);
+    		System.out.println("FIRST NAME IS: "+((GuestInfo) obj).getFirstName());
+    		info = (GuestInfo) obj;
+    		Collection c = info.getGuestStayInfos();
+    		Iterator iter = c.iterator();
+    		GuestStayInfo first = (GuestStayInfo) iter.next();
+    		GuestTransactions [] gstArr = first.getGuestTransactionses().toArray(new GuestTransactions[0]);//(GuestTransactions[]) first.getGuestTransactionses().toArray();
+    		for(int i=0;i<(gstArr.length-1);i++){
+    			for(int j=i;j<gstArr.length;j++){
+    				if(gstArr[i].getTransactionDate().after(gstArr[j].getTransactionDate())){
+    					Calendar temp = gstArr[i].getTransactionDate();
+    					gstArr[i].setTransactionDate(gstArr[j].getTransactionDate());
+    					gstArr[j].setTransactionDate(temp);
+    				}
+    			}
+    		}
+    		Set<GuestTransactions> mySet = new HashSet<GuestTransactions>(Arrays.asList(gstArr));
+    		first.setGuestTransactionses(mySet);
+    		Set<GuestStayInfo> gsti = new HashSet<GuestStayInfo>();
+    		gsti.add(first);
+    		info.setGuestStayInfos(gsti);
+    		obj = info;
+    		/*Collections.sort(gst, new Comparator<Calendar>() {
+    		    public int compare(Calendar o1, Calendar o2) {
+    		    	return (o1.after(o2)?1:0);
+    		        //return return (i1 > i2 ? -1 : (i1 == i2 ? 0 : 1));
+    		    }
+    		});*/
+    		//info.setGuestStayInfos(guestStayInfos);
     	}catch(Exception e){
     		return returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.GETBILLINFO_DESCRIPTION, "getBillInfo");
     	}
@@ -85,6 +117,60 @@ public class SoapOperationService {
     		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "guestCheckIn");
     	}
         return guestStayInfo;
+    }
+    
+    @WebMethod(operationName = "reservationLookup")
+    public Object reservationLookup(@WebParam(name = "reservationDetails") ReservationDetails resDetails) {
+    	try{
+	    	ReservationDetails gi = new ReservationDetails();
+	    	String confirmationNumber = resDetails.getConfirmationNumber();
+	    	String lastName = resDetails.getLastName();
+	    	String creditCard = resDetails.getCreditCard();
+	    	String loyaltyNumber = resDetails.getLoyaltyNumber();
+	    	GuestInfo g = null;
+	    	if(null != confirmationNumber && !"".equalsIgnoreCase(confirmationNumber.trim())){
+	    		g = guestInfoService.findGuestInfoByConfirmationNumber(confirmationNumber);
+	    	}else if(null != lastName && !"".equalsIgnoreCase(lastName.trim()) && null != creditCard && !"".equalsIgnoreCase(creditCard.trim())){
+	    		g = guestInfoService.findGuestInfoByLastNameCreditCard(lastName,creditCard);
+	    	}else if(null != loyaltyNumber && !"".equalsIgnoreCase(loyaltyNumber.trim())){
+	    		g = guestInfoService.findGuestInfoByLoyaltyNumber(loyaltyNumber);
+	    	}
+			Collection c = g.getGuestStayInfos();
+			Iterator iter = c.iterator();
+			GuestStayInfo first = (GuestStayInfo) iter.next();
+			gi.setGuestName(g.getFirstName()+" "+g.getLastName());
+			gi.setRoomFeatures("WE DO NOT HAVE THIS FIELD YET.");
+			gi.setTotalGuests(first.getNumberOfAdult()+first.getNumberOfChildren());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			String aDate="";
+			String dDate = "";
+			if (null != first.getArrivalDate()) {
+				aDate = sdf.format(first.getArrivalDate().getTime());
+			} 
+			if (null != first.getDepartureDate()) {
+				dDate = sdf.format(first.getDepartureDate().getTime());
+			} 
+			System.out.println(aDate+"ARRIVAL DATEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+			System.out.println(dDate+"DEPARTURE DATEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
+			gi.setStayDates(aDate+"   -   "+dDate);
+			gi.setLoyaltyNumber(g.getHhNumber());
+			if(null != first.getTotalBill())
+				gi.setTotalBill(first.getTotalBill().toString());
+			gi.setSpecialRequests("WE DO NOT HAVE THIS FIELD YET.");
+			if(null != first.getCardNumber() && !"".equalsIgnoreCase(first.getCardNumber().trim())){
+				int len = first.getCardNumber().length();
+				if(5 < len){
+					gi.setCreditCard(first.getCardNumber().substring(first.getCardNumber().length()-4));
+				}else{
+					gi.setCreditCard(first.getCardNumber());
+				}
+			}
+	    	return gi;
+    	}catch(NullPointerException e){
+    		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "reservationLookup");
+    	}catch(Exception e){
+    		return returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.RESERVATION_REASON, Messages.RESERVATION_DESCRIPTION, "reservationLookup");
+    	}
     }
     
     @WebMethod(operationName = "placeOrder")
@@ -173,6 +259,15 @@ public class SoapOperationService {
     		obj[0] = returnFaultObject(Messages.FAULT_CODE_CREDENTIALS,Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.CHECKOUT_DESCRIPTION, "guestCheckout");
     		return obj;
     	}
+		for(int i=0;i<(gt.length-1);i++){
+			for(int j=i;j<gt.length;j++){
+				if(gt[i].getTransactionDate().after(gt[j].getTransactionDate())){
+					Calendar temp = gt[i].getTransactionDate();
+					gt[i].setTransactionDate(gt[j].getTransactionDate());
+					gt[j].setTransactionDate(temp);
+				}
+			}
+		}
         return gt;
     }
     

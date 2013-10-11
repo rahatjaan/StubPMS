@@ -14,4 +14,6 @@ public class Messages {
 	public static final String DATABASE_REASON = "Either provided credentials are not found in the database, please retry or contact Administrator.";
 	public static final String DATABASE_DESCRIPTION = "The information you are trying to save/find in the database is not saved/found properly. Kindly verify the input parameters.";
 	public static final String CHECKOUT_DESCRIPTION = "Following parameters are required: lastName,email,creditCardNumber   !!!Remember parameter names are case-sensitive!!!";
+	public static final String RESERVATION_REASON = "Please verify if the number of input parameters are right and parameters are case-sensitive.";
+	public static final String RESERVATION_DESCRIPTION = "Please provide any of these three: (1). Reservation Confirmation Number (2). Last Name AND Last 4 digits of Credit Card (3). Hotel Loyalty Number  !!!Remember parameter names are case-sensitive!!!";
 }
