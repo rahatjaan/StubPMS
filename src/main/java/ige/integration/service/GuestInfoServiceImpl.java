@@ -190,7 +190,9 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 			Iterator iter = c.iterator();
 			gsi = (GuestStayInfo) iter.next();
 			Calendar d1 = gsi.getArrivalDate();
-			int days = gsi.getNumberOfDays();
+			int days = 0;
+			if(null != gsi.getNumberOfDays())
+				days = gsi.getNumberOfDays();
 			d1.add(Calendar.DAY_OF_MONTH, days);
 			if(0 < days)
 				gsi.setDepartureDate(d1);

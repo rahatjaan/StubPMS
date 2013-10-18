@@ -210,6 +210,14 @@ public class SoapOperationService {
     	GuestTransactions [] gt = null;
     	try{
     		gi = guestInfoService.findGuestByEmailLastNameRoom(userName, email, roomNumber);
+    		Collection c = gi.getGuestStayInfos();
+    		Iterator iter = c.iterator();
+    		GuestStayInfo gsf = (GuestStayInfo) iter.next();
+    		if(null != gi && null != gsf && gsf.getCheckedOut() != null && gsf.getCheckedOut() == true){
+    			Object [] obj = new Object[1];
+        		obj[0] = returnFaultObject("Guest can not be checked out","You can not be check out right now.", "Can not be checked out either because you are already checked out or no information found for given credentials.", "Please check if you are already checked out or the provided information is correct.", "guestCheckoutFALSE");
+        		return obj;
+    		}
     	}catch(Exception e){
     		Object [] obj = new Object[1];
     		obj[0] = returnFaultObject(Messages.FAULT_CODE_CREDENTIALS,Messages.CREDENTIALS_MESSAGE, Messages.CREDENTIALS_REASON, Messages.CHECKOUT_DESCRIPTION, "guestCheckout");

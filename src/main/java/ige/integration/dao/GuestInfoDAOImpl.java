@@ -740,6 +740,10 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 				    	Set<GuestStayInfo> sss = new HashSet<GuestStayInfo>();
 				    	sss.add(s);
 				    	o.setGuestStayInfos(sss);
+				    	System.out.println("***********************************************************");
+				    	System.out.println("Lastname: "+o.getLastName()+"   Email: "+o.getEmail()+"   Room: "+s.getRoomNumber());
+				    	System.out.println("NAME: "+lastName+"ROOM: "+roomNumber+"EMAIL: "+email);
+				    	System.out.println("***********************************************************");
 				    	return o;
 				    }
 				}	
