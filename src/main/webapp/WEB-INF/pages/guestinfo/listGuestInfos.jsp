@@ -81,17 +81,7 @@
 					</td>
 					<td nowrap="nowrap" class="tabletd">
 						
-							${current.hhNumber}
-						&nbsp;
-					</td>
-					<td nowrap="nowrap" class="tabletd">
-						
-							${current.al}
-						&nbsp;
-					</td>
-					<td nowrap="nowrap" class="tabletd">
-						
-							${current.bonusAl}
+							${current.loyaltyNumber}
 						&nbsp;
 					</td>
 					<td nowrap="nowrap" class="tabletd">

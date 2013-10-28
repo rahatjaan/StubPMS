@@ -153,10 +153,13 @@ public class SoapOperationService {
 			System.out.println(aDate+"ARRIVAL DATEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 			System.out.println(dDate+"DEPARTURE DATEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 			gi.setStayDates(aDate+"   -   "+dDate);
-			gi.setLoyaltyNumber(g.getHhNumber());
+			gi.setLoyaltyNumber(g.getLoyaltyNumber());
 			if(null != first.getTotalBill())
 				gi.setTotalBill(first.getTotalBill().toString());
 			gi.setSpecialRequests("WE DO NOT HAVE THIS FIELD YET.");
+			if(null != confirmationNumber){
+				gi.setCreditCard(creditCard);
+			}
 			if(null != first.getCardNumber() && !"".equalsIgnoreCase(first.getCardNumber().trim())){
 				int len = first.getCardNumber().length();
 				if(5 < len){

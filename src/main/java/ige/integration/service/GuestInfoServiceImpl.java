@@ -169,9 +169,7 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 				existingGuestInfo.setFullAddress(guestinfo.getFullAddress());
 				existingGuestInfo.setMobileNumber(guestinfo.getMobileNumber());
 				existingGuestInfo.setRatePlan(guestinfo.getRatePlan());
-				existingGuestInfo.setHhNumber(guestinfo.getHhNumber());
-				existingGuestInfo.setAl(guestinfo.getAl());
-				existingGuestInfo.setBonusAl(guestinfo.getBonusAl());
+				existingGuestInfo.setLoyaltyNumber(guestinfo.getLoyaltyNumber());
 				existingGuestInfo.setConfirmationNumber(guestinfo.getConfirmationNumber());
 				existingGuestInfo.setMembershipNumber(guestinfo.getMembershipNumber());
 				existingGuestInfo.setBonusCode(guestinfo.getBonusCode());

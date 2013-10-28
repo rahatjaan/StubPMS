@@ -73,25 +73,7 @@
 							<fmt:message key="guestinfo.hhnumber.title"/>:
 						</td>
 						<td>
-							${guestinfo.hhNumber}
-						&nbsp;
-						</td>
-					</tr>
-					<tr>
-						<td class="label" valign="top">
-							<fmt:message key="guestinfo.al.title"/>:
-						</td>
-						<td>
-							${guestinfo.al}
-						&nbsp;
-						</td>
-					</tr>
-					<tr>
-						<td class="label" valign="top">
-							<fmt:message key="guestinfo.bonusal.title"/>:
-						</td>
-						<td>
-							${guestinfo.bonusAl}
+							${guestinfo.loyaltyNumber}
 						&nbsp;
 						</td>
 					</tr>

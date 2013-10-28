@@ -71,26 +71,8 @@
 							<fmt:message key="guestinfo.hhnumber.title"/>:
 						</td>
 						<td>
-							<form:input id="guestinfo_hhNumber" path="hhNumber" cssStyle="width:300px;"/>
+							<form:input id="guestinfo_hhNumber" path="loyaltyNumber" cssStyle="width:300px;"/>
 							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "guestinfo_hhNumber",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="guestinfo.hhnumber.help"/>"}})); </script>
-						</td>
-					</tr>
-					<tr>
-						<td class="label" valign="top">
-							<fmt:message key="guestinfo.al.title"/>:
-						</td>
-						<td>
-							<form:input id="guestinfo_al" path="al" cssStyle="width:300px;"/>
-							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "guestinfo_al",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="guestinfo.al.help"/>"}})); </script>
-						</td>
-					</tr>
-					<tr>
-						<td class="label" valign="top">
-							<fmt:message key="guestinfo.bonusal.title"/>:
-						</td>
-						<td>
-							<form:input id="guestinfo_bonusAl" path="bonusAl" cssStyle="width:300px;"/>
-							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "guestinfo_bonusAl",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="guestinfo.bonusal.help"/>"}})); </script>
 						</td>
 					</tr>
 					<tr>

@@ -27,11 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @NamedQueries({
 		@NamedQuery(name = "findAllGuestInfos", query = "select myGuestInfo from GuestInfo myGuestInfo"),
-		@NamedQuery(name = "findGuestInfoByAl", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.al = ?1"),
 		@NamedQuery(name = "findGuestInfoByEmail", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.email = ?1"),
-		@NamedQuery(name = "findGuestInfoByAlContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.al like ?1"),
-		@NamedQuery(name = "findGuestInfoByBonusAl", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.bonusAl = ?1"),
-		@NamedQuery(name = "findGuestInfoByBonusAlContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.bonusAl like ?1"),
 		@NamedQuery(name = "findGuestInfoByBonusCode", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.bonusCode = ?1"),
 		@NamedQuery(name = "findGuestInfoByBonusCodeContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.bonusCode like ?1"),
 		@NamedQuery(name = "findGuestInfoByConfirmationNumber", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.confirmationNumber = ?1"),
@@ -42,8 +38,8 @@ import javax.xml.bind.annotation.XmlType;
 		@NamedQuery(name = "findGuestInfoByFullAddressContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.fullAddress like ?1"),
 		@NamedQuery(name = "findGuestInfoByGroupName", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.groupName = ?1"),
 		@NamedQuery(name = "findGuestInfoByGroupNameContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.groupName like ?1"),
-		@NamedQuery(name = "findGuestInfoByHhNumber", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.hhNumber = ?1"),
-		@NamedQuery(name = "findGuestInfoByHhNumberContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.hhNumber like ?1"),
+		@NamedQuery(name = "findGuestInfoByHhNumber", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.loyaltyNumber = ?1"),
+		@NamedQuery(name = "findGuestInfoByHhNumberContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.loyaltyNumber like ?1"),
 		@NamedQuery(name = "findGuestInfoById", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.id = ?1"),
 		@NamedQuery(name = "findGuestBillInfo", query = "select myGuestInfo from GuestStayInfo myGuestStayInfo, GuestTransactions myGuestTransactions, GuestInfo myGuestInfo where myGuestInfo.email = ?1 and myGuestInfo.lastName = ?2 and myGuestStayInfo.roomNumber = ?3"),
 		@NamedQuery(name = "findGuestInfoByEmailLastNameRoom", query = "select myGuestInfo from GuestStayInfo myGuestStayInfo, GuestInfo myGuestInfo, GuestTransactions myGuestTransactions where myGuestInfo.lastName = ?1 and myGuestInfo.email = ?2 and myGuestStayInfo.roomNumber = ?3"),		
@@ -112,21 +108,21 @@ public class GuestInfo implements Serializable {
 	@Column(name = "hh_number", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
-	String hhNumber;
+	String loyaltyNumber;
 	/**
-	 */
+	 *//*
 
 	@Column(name = "AL", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
 	String al;
-	/**
-	 */
+	*//**
+	 *//*
 
 	@Column(name = "bonus_al", length = 45)
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
-	String bonusAl;
+	String bonusAl;*/
 	/**
 	 */
 
@@ -243,39 +239,18 @@ public class GuestInfo implements Serializable {
 
 	/**
 	 */
-	public void setHhNumber(String hhNumber) {
-		this.hhNumber = hhNumber;
+	public void setLoyaltyNumber(String loyaltyNumber) {
+		this.loyaltyNumber = loyaltyNumber;
 	}
 
 	/**
 	 */
-	public String getHhNumber() {
-		return this.hhNumber;
+	public String getLoyaltyNumber() {
+		return this.loyaltyNumber;
 	}
 
 	/**
 	 */
-	public void setAl(String al) {
-		this.al = al;
-	}
-
-	/**
-	 */
-	public String getAl() {
-		return this.al;
-	}
-
-	/**
-	 */
-	public void setBonusAl(String bonusAl) {
-		this.bonusAl = bonusAl;
-	}
-
-	/**
-	 */
-	public String getBonusAl() {
-		return this.bonusAl;
-	}
 
 	/**
 	 */
@@ -364,9 +339,7 @@ public class GuestInfo implements Serializable {
 		setFullAddress(that.getFullAddress());
 		setMobileNumber(that.getMobileNumber());
 		setRatePlan(that.getRatePlan());
-		setHhNumber(that.getHhNumber());
-		setAl(that.getAl());
-		setBonusAl(that.getBonusAl());
+		setLoyaltyNumber(that.getLoyaltyNumber());
 		setConfirmationNumber(that.getConfirmationNumber());
 		setMembershipNumber(that.getMembershipNumber());
 		setBonusCode(that.getBonusCode());
@@ -388,9 +361,7 @@ public class GuestInfo implements Serializable {
 		buffer.append("fullAddress=[").append(fullAddress).append("] ");
 		buffer.append("mobileNumber=[").append(mobileNumber).append("] ");
 		buffer.append("ratePlan=[").append(ratePlan).append("] ");
-		buffer.append("hhNumber=[").append(hhNumber).append("] ");
-		buffer.append("al=[").append(al).append("] ");
-		buffer.append("bonusAl=[").append(bonusAl).append("] ");
+		buffer.append("loyaltyNumber=[").append(loyaltyNumber).append("] ");
 		buffer.append("confirmationNumber=[").append(confirmationNumber).append("] ");
 		buffer.append("membershipNumber=[").append(membershipNumber).append("] ");
 		buffer.append("bonusCode=[").append(bonusCode).append("] ");
