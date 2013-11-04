@@ -7,14 +7,35 @@ public class ReservationDetails implements Serializable {
 	private String confirmationNumber;
 	private String lastName;
 	private String creditCard;
-	private String loyaltyNumber;
-	private String guestName;
+	private String loyaltyCardNumber;
+	private String firstName;
 	private String roomFeatures;
 	private int totalGuests;
 	private String stayDates;
 	private String specialRequests;
 	private String totalBill;
+	private String namePrefix;
+	private String maskedCardNumber;
+	private String currencyCode;
 	
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
+	}
+	public String getMaskedCardNumber() {
+		return maskedCardNumber;
+	}
+	public void setMaskedCardNumber(String maskedCardNumber) {
+		this.maskedCardNumber = maskedCardNumber;
+	}
+	public String getNamePrefix() {
+		return namePrefix;
+	}
+	public void setNamePrefix(String namePrefix) {
+		this.namePrefix = namePrefix;
+	}
 	public String getConfirmationNumber() {
 		return confirmationNumber;
 	}
@@ -33,17 +54,17 @@ public class ReservationDetails implements Serializable {
 	public void setCreditCard(String creditCard) {
 		this.creditCard = creditCard;
 	}
-	public String getLoyaltyNumber() {
-		return loyaltyNumber;
+	public String getLoyaltyCardNumber() {
+		return loyaltyCardNumber;
 	}
-	public void setLoyaltyNumber(String loyaltyNumber) {
-		this.loyaltyNumber = loyaltyNumber;
+	public void setLoyaltyCardNumber(String loyaltyCardNumber) {
+		this.loyaltyCardNumber = loyaltyCardNumber;
 	}
-	public String getGuestName() {
-		return guestName;
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setGuestName(String guestName) {
-		this.guestName = guestName;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	public String getRoomFeatures() {
 		return roomFeatures;

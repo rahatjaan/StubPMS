@@ -126,7 +126,7 @@ public class SoapOperationService {
 	    	String confirmationNumber = resDetails.getConfirmationNumber();
 	    	String lastName = resDetails.getLastName();
 	    	String creditCard = resDetails.getCreditCard();
-	    	String loyaltyNumber = resDetails.getLoyaltyNumber();
+	    	String loyaltyNumber = resDetails.getLoyaltyCardNumber();
 	    	GuestInfo g = null;
 	    	if(null != confirmationNumber && !"".equalsIgnoreCase(confirmationNumber.trim())){
 	    		g = guestInfoService.findGuestInfoByConfirmationNumber(confirmationNumber);
@@ -138,10 +138,15 @@ public class SoapOperationService {
 			Collection c = g.getGuestStayInfos();
 			Iterator iter = c.iterator();
 			GuestStayInfo first = (GuestStayInfo) iter.next();
-			gi.setGuestName(g.getFirstName()+" "+g.getLastName());
+			gi.setNamePrefix(resDetails.getNamePrefix());
+			gi.setFirstName(g.getLastName());
+			gi.setLastName(g.getLastName());
 			gi.setRoomFeatures("WE DO NOT HAVE THIS FIELD YET.");
+			gi.setMaskedCardNumber(resDetails.getMaskedCardNumber());
+			gi.setCurrencyCode(resDetails.getCurrencyCode());
 			gi.setTotalGuests(first.getNumberOfAdult()+first.getNumberOfChildren());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+			
 			String aDate="";
 			String dDate = "";
 			if (null != first.getArrivalDate()) {
@@ -153,7 +158,7 @@ public class SoapOperationService {
 			System.out.println(aDate+"ARRIVAL DATEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 			System.out.println(dDate+"DEPARTURE DATEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 			gi.setStayDates(aDate+"   -   "+dDate);
-			gi.setLoyaltyNumber(g.getLoyaltyNumber());
+			gi.setLoyaltyCardNumber(g.getLoyaltyNumber());
 			if(null != first.getTotalBill())
 				gi.setTotalBill(first.getTotalBill().toString());
 			gi.setSpecialRequests("WE DO NOT HAVE THIS FIELD YET.");
