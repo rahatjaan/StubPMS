@@ -261,4 +261,8 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber) {
 		return guestInfoDAO.findGuestInfoByLoyaltyNumber(loyaltyNumber);
 	}
+	
+	public GuestStayInfo findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException{
+		return guestInfoDAO.findGuestByReservationNumber(reservationNumber);
+	}
 }

@@ -348,5 +348,6 @@ public interface GuestInfoDAO extends JpaDao<GuestInfo> {
 	public GuestInfo findGuestInfoByConfirmationNumbers(String confirmationNumber);
 	public GuestStayInfo findGuestInfoByLastNameCreditCard(String lastName, String creditCard);
 	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber);
+	public GuestStayInfo findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException;
 
 }

@@ -65,5 +65,6 @@ public interface GuestInfoService {
 	public GuestInfo findGuestInfoByConfirmationNumber(String confirmationNumber);
 	public GuestInfo findGuestInfoByLastNameCreditCard(String lastName, String creditCard);
 	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber);
+	public GuestStayInfo findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException;
 	
 }

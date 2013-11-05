@@ -4,6 +4,7 @@ package ige.integration.webservice;
 import ige.integration.domain.GuestInfo;
 import ige.integration.domain.GuestStayInfo;
 import ige.integration.domain.GuestTransactions;
+import ige.integration.domain.HotelFolio;
 import ige.integration.domain.ReservationDetails;
 import ige.integration.messages.Messages;
 import ige.integration.service.GuestInfoService;
@@ -11,6 +12,7 @@ import ige.integration.service.GuestStayInfoService;
 import ige.integration.service.GuestTransactionsService;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -120,9 +122,9 @@ public class SoapOperationService {
     }
     
     @WebMethod(operationName = "reservationLookup")
-    public Object reservationLookup(@WebParam(name = "reservationDetails") ReservationDetails resDetails) {
+    public ReservationDetails reservationLookup(@WebParam(name = "reservationDetails") ReservationDetails resDetails) {
+    	ReservationDetails gi = new ReservationDetails();
     	try{
-	    	ReservationDetails gi = new ReservationDetails();
 	    	String confirmationNumber = resDetails.getConfirmationNumber();
 	    	String lastName = resDetails.getLastName();
 	    	String creditCard = resDetails.getCreditCard();
@@ -138,12 +140,20 @@ public class SoapOperationService {
 			Collection c = g.getGuestStayInfos();
 			Iterator iter = c.iterator();
 			GuestStayInfo first = (GuestStayInfo) iter.next();
-			gi.setNamePrefix(resDetails.getNamePrefix());
+			gi.setNamePrefix(g.getNamePrefix());
 			gi.setFirstName(g.getLastName());
 			gi.setLastName(g.getLastName());
 			gi.setRoomFeatures("WE DO NOT HAVE THIS FIELD YET.");
-			gi.setMaskedCardNumber(resDetails.getMaskedCardNumber());
-			gi.setCurrencyCode(resDetails.getCurrencyCode());
+			String card = first.getCardNumber();
+			if(null != card && !"".equalsIgnoreCase(card.trim())){
+				if(4 < card.length()){
+					card = "XXXXXXXXXXXX"+card.substring(card.length()-4);
+				}else{
+					card = "XXXXXXXXXXXX"+card;
+				}
+			}
+			gi.setMaskedCardNumber(card);
+			gi.setCurrencyCode(first.getCurrencyCode());
 			gi.setTotalGuests(first.getNumberOfAdult()+first.getNumberOfChildren());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			
@@ -173,12 +183,12 @@ public class SoapOperationService {
 					gi.setCreditCard(first.getCardNumber());
 				}
 			}
-	    	return gi;
     	}catch(NullPointerException e){
-    		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "reservationLookup");
+    		gi.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "reservationLookup"));
     	}catch(Exception e){
-    		return returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.RESERVATION_REASON, Messages.RESERVATION_DESCRIPTION, "reservationLookup");
+    		gi.setError(returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.RESERVATION_REASON, Messages.RESERVATION_DESCRIPTION, "reservationLookup"));
     	}
+    	return gi;
     }
     
     @WebMethod(operationName = "placeOrder")
@@ -286,6 +296,50 @@ public class SoapOperationService {
 		}
         return gt;
     }
+    
+    
+    @WebMethod(operationName = "HotelFolio")
+    public HotelFolio HotelFolio(@WebParam(name = "terminalId") String terminalId,@WebParam(name = "reservationNumber") String reservationNumber,@WebParam(name = "folioType") String folioType) {
+    	HotelFolio hotelFolio = new HotelFolio();
+    	GuestStayInfo gi = null;
+		try{
+			System.out.println("RESERVATION NUMBER IS: "+reservationNumber);
+			gi = guestInfoService.findGuestByReservationNumber(reservationNumber);
+			System.out.println("GOT THE RESULT");
+			if(null == gi){
+				System.out.println("NULLLLLLLLLLLLLLLLLLLL");
+			}
+		}catch(NullPointerException e1){
+			System.out.println("EXCEPTION 1");
+			hotelFolio.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "HotelFolio"));
+			
+		}catch(IllegalArgumentException e2){
+			System.out.println("EXCEPTION 2");
+			hotelFolio.setError(returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.FOLIO_REASON, Messages.FOLIO_DESCRIPTION, "HotelFolio"));
+			return hotelFolio;
+		}catch(Exception e5){
+			System.out.println("EXCEPTION 3");
+			hotelFolio.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "HotelFolio"));
+			return hotelFolio;
+		}
+		if(null != gi){
+			System.out.println("NOT NULLLLLLLLLLLLLLLLLLLL and folio is: "+gi.getFolioNumber()+" and ID is: "+gi.getGuestInfo().getId());
+			GuestInfo g = guestInfoService.findGuestInfoByPrimaryKey(gi.getGuestInfo().getId());
+			if(null != g){
+				hotelFolio.setFolioType(folioType);
+				hotelFolio.setTerminalId(terminalId);
+	    		hotelFolio.setFolioId(gi.getId().toString());
+	    		hotelFolio.setReservationNumber(reservationNumber);
+	    		hotelFolio.setFolioContent("FirstName: "+g.getFirstName()+", LastName: "+g.getLastName()+", Email: "+g.getEmail());
+			}else{
+				hotelFolio.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "HotelFolio"));
+				return hotelFolio;
+			}
+		}
+		System.out.println("BEFORE RETURN STATEMENT");
+    	return hotelFolio;
+    }
+    
     
     private String returnFaultObject(String code, String message, String reason, String description, String service){
     	String msg = "<soap:Fault xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'"; 

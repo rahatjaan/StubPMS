@@ -18,14 +18,13 @@
 				<tr>
 					<th class="thead">&nbsp;</th>
 					<th class="thead"><fmt:message key="guestinfo.id.title"/></th>
+					<th class="thead"><fmt:message key="guestinfo.namePrefix.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.firstname.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.lastname.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.fulladdress.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.mobilenumber.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.rateplan.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.hhnumber.title"/></th>
-					<th class="thead"><fmt:message key="guestinfo.al.title"/></th>
-					<th class="thead"><fmt:message key="guestinfo.bonusal.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.confirmationnumber.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.membershipnumber.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.bonuscode.title"/></th>
@@ -52,6 +51,11 @@
 					<td nowrap="nowrap" class="tabletd">
 						
 							${current.id}
+						&nbsp;
+					</td>
+					<td nowrap="nowrap" class="tabletd">
+						
+							${current.namePrefix}
 						&nbsp;
 					</td>
 					<td nowrap="nowrap" class="tabletd">

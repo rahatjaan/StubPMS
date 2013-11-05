@@ -25,6 +25,15 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
+							<fmt:message key="guestinfo.namePrefix.title"/>:
+						</td>
+						<td>
+							${guestinfo.namePrefix}
+						&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td class="label" valign="top">
 							<fmt:message key="guestinfo.firstname.title"/>:
 						</td>
 						<td>
@@ -244,6 +253,10 @@
 						</td>
 						<td>
 							${current.reservationType}
+						&nbsp;
+						</td>
+						<td>
+							${current.currencyCode}
 						&nbsp;
 						</td>
 					</tr>

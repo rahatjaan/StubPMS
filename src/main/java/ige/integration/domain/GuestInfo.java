@@ -52,6 +52,7 @@ import javax.xml.bind.annotation.XmlType;
 		@NamedQuery(name = "findGuestInfoByPrimaryKey", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.id = ?1"),
 		@NamedQuery(name = "findGuestInfoByRatePlan", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.ratePlan = ?1"),
 		@NamedQuery(name = "findGuestInfoByRatePlanContaining", query = "select myGuestInfo from GuestInfo myGuestInfo where myGuestInfo.ratePlan like ?1") })
+		@NamedQuery(name = "findGuestInfoByReservationNumber", query = "select myGuestStayInfo from GuestStayInfo myGuestStayInfo where myGuestStayInfo.folioNumber = ?1")
 @Table(catalog = "pms", name = "guest_info")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "StubPMS/ige/integration/domain", name = "GuestInfo")
@@ -69,6 +70,11 @@ public class GuestInfo implements Serializable {
 	Integer id;
 	/**
 	 */
+	
+	@Column(name = "namePrefix", length = 10)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String namePrefix;
 
 	@Column(name = "first_name", length = 100)
 	@Basic(fetch = FetchType.EAGER)
@@ -292,6 +298,16 @@ public class GuestInfo implements Serializable {
 	 */
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+	
+	
+
+	public String getNamePrefix() {
+		return namePrefix;
+	}
+
+	public void setNamePrefix(String namePrefix) {
+		this.namePrefix = namePrefix;
 	}
 
 	/**

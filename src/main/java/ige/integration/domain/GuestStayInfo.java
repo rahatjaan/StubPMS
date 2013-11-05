@@ -131,6 +131,11 @@ public class GuestStayInfo implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
 	String paymentType;
+	
+	@Column(name = "currencyCode", length = 20)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String currencyCode;
 	/**
 	 */
 
@@ -237,6 +242,15 @@ public class GuestStayInfo implements Serializable {
 	 */
 	public Integer getId() {
 		return this.id;
+	}
+
+	
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
+
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
 	}
 
 	/**

@@ -192,6 +192,15 @@
 							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "gueststayinfo_reservationType",widgetType : "dijit.form.NumberTextBox",widgetAttrs : {promptMessage: "<fmt:message key="gueststayinfo.reservationtype.help"/>", constraints : {places:0}}})); </script>
 						</td>
 					</tr>
+					<tr>
+						<td class="label" valign="top">
+							<fmt:message key="gueststayinfo.currencyCode.title"/>:
+						</td>
+						<td>
+							<form:input id="gueststayinfo_currencyCode" path="currencyCode" cssStyle="width:300px;"/>
+							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "gueststayinfo_currencyCode",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="gueststayinfo.currencyCode.help"/>", constraints : {places:0}}})); </script>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			<span class="inputbutton"><input class="savebutton" id="save" type="submit" value="<fmt:message key="navigation.save"/>"/></span>

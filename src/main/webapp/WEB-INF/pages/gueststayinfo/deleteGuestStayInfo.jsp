@@ -195,6 +195,15 @@
 						&nbsp;
 						</td>
 					</tr>
+					<tr>
+						<td class="label" valign="top">
+							<fmt:message key="gueststayinfo.currencyCode.title"/>:
+						</td>
+						<td>
+							${gueststayinfo.currencyCode}
+						&nbsp;
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			<div class="navitem"><a class="button" href="${pageContext.request.contextPath}/deleteGuestStayInfo?idKey=${gueststayinfo.id}&"><span><img src="images/icons/delete.gif" /><fmt:message key="navigation.delete"/></span></a></div>

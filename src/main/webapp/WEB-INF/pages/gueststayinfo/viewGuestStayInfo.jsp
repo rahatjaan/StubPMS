@@ -194,6 +194,15 @@
 						&nbsp;
 						</td>
 					</tr>
+					<tr>
+						<td class="label" valign="top">
+							<fmt:message key="gueststayinfo.currencyCode.title"/>:
+						</td>
+						<td>
+							${gueststayinfo.currencyCode}
+						&nbsp;
+						</td>
+					</tr>
 				</tbody>
 			</table>
 			<div class="clear">&nbsp;</div>

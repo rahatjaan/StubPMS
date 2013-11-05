@@ -25,6 +25,15 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
+							<fmt:message key="guestinfo.namePrefix.title"/>:
+						</td>
+						<td>
+							${guestinfo.namePrefix}
+						&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td class="label" valign="top">
 							<fmt:message key="guestinfo.firstname.title"/>:
 						</td>
 						<td>

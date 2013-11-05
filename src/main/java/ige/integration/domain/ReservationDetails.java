@@ -2,8 +2,12 @@ package ige.integration.domain;
 
 import java.io.Serializable;
 
-public class ReservationDetails implements Serializable {
-	private static final long serialVersionUID = 1L;
+import javax.xml.bind.annotation.XmlType;
+
+
+public class ReservationDetails {
+	
+	
 	private String confirmationNumber;
 	private String lastName;
 	private String creditCard;
@@ -17,25 +21,7 @@ public class ReservationDetails implements Serializable {
 	private String namePrefix;
 	private String maskedCardNumber;
 	private String currencyCode;
-	
-	public String getCurrencyCode() {
-		return currencyCode;
-	}
-	public void setCurrencyCode(String currencyCode) {
-		this.currencyCode = currencyCode;
-	}
-	public String getMaskedCardNumber() {
-		return maskedCardNumber;
-	}
-	public void setMaskedCardNumber(String maskedCardNumber) {
-		this.maskedCardNumber = maskedCardNumber;
-	}
-	public String getNamePrefix() {
-		return namePrefix;
-	}
-	public void setNamePrefix(String namePrefix) {
-		this.namePrefix = namePrefix;
-	}
+	private String error;
 	public String getConfirmationNumber() {
 		return confirmationNumber;
 	}
@@ -95,6 +81,30 @@ public class ReservationDetails implements Serializable {
 	}
 	public void setTotalBill(String totalBill) {
 		this.totalBill = totalBill;
+	}
+	public String getNamePrefix() {
+		return namePrefix;
+	}
+	public void setNamePrefix(String namePrefix) {
+		this.namePrefix = namePrefix;
+	}
+	public String getMaskedCardNumber() {
+		return maskedCardNumber;
+	}
+	public void setMaskedCardNumber(String maskedCardNumber) {
+		this.maskedCardNumber = maskedCardNumber;
+	}
+	public String getCurrencyCode() {
+		return currencyCode;
+	}
+	public void setCurrencyCode(String currencyCode) {
+		this.currencyCode = currencyCode;
+	}
+	public String getError() {
+		return error;
+	}
+	public void setError(String error) {
+		this.error = error;
 	}
 	
 }

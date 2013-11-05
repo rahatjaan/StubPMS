@@ -805,4 +805,16 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 			return null;
 		}
 	}
+	
+	public GuestStayInfo findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException {
+		Query query = createNamedQuery("findGuestInfoByReservationNumber", -1, -1, reservationNumber);
+		System.out.println("NO ERROR YETTTTTTTTTTTTT");
+		List<GuestStayInfo> g = query.getResultList();
+		for(GuestStayInfo a:g){
+			if(reservationNumber.equalsIgnoreCase(a.getFolioNumber())){
+				return a;
+			}
+		}
+		return null;
+	}
 }

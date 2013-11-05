@@ -37,6 +37,7 @@
 					<th class="thead"><fmt:message key="gueststayinfo.creditcardexpirationdate.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.ratecode.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.reservationtype.title"/></th>
+					<th class="thead"><fmt:message key="gueststayinfo.currencyCode.title"/></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -153,6 +154,11 @@
 					<td nowrap="nowrap" class="tabletd">
 						
 							${current.reservationType}
+						&nbsp;
+					</td>
+					<td nowrap="nowrap" class="tabletd">
+						
+							${current.currencyCode}
 						&nbsp;
 					</td>
 				</tr>

@@ -20,7 +20,15 @@
 							<form:hidden id="guestinfo_id" path="id" value=""/>
 						</td>
 					</tr>
-					
+					<tr>
+						<td class="label" valign="top">
+							<fmt:message key="guestinfo.namePrefix.title"/>:
+						</td>
+						<td>
+							<form:input id="guestinfo_namePrefix" path="namePrefix" cssStyle="width:300px;"/>
+							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "guestinfo_namePrefix",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="guestinfo.namePrefix.help"/>"}})); </script>
+						</td>
+					</tr>
 					<tr>
 						<td class="label" valign="top">
 							<fmt:message key="guestinfo.firstname.title"/>:
