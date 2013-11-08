@@ -10,18 +10,18 @@ public class ReservationDetails {
 	
 	private String confirmationNumber;
 	private String lastName;
-	private String creditCard;
 	private String loyaltyCardNumber;
 	private String firstName;
 	private String roomFeatures;
 	private int totalGuests;
 	private String stayDates;
 	private String specialRequests;
-	private String totalBill;
+	private String totalForStay;
 	private String namePrefix;
 	private String maskedCardNumber;
 	private String currencyCode;
 	private String error;
+	private String roomNumber;
 	public String getConfirmationNumber() {
 		return confirmationNumber;
 	}
@@ -33,12 +33,6 @@ public class ReservationDetails {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-	public String getCreditCard() {
-		return creditCard;
-	}
-	public void setCreditCard(String creditCard) {
-		this.creditCard = creditCard;
 	}
 	public String getLoyaltyCardNumber() {
 		return loyaltyCardNumber;
@@ -76,11 +70,11 @@ public class ReservationDetails {
 	public void setSpecialRequests(String specialRequests) {
 		this.specialRequests = specialRequests;
 	}
-	public String getTotalBill() {
-		return totalBill;
+	public String getTotalForStay() {
+		return totalForStay;
 	}
-	public void setTotalBill(String totalBill) {
-		this.totalBill = totalBill;
+	public void setTotalForStay(String totalForStay) {
+		this.totalForStay = totalForStay;
 	}
 	public String getNamePrefix() {
 		return namePrefix;
@@ -105,6 +99,12 @@ public class ReservationDetails {
 	}
 	public void setError(String error) {
 		this.error = error;
+	}
+	public String getRoomNumber() {
+		return roomNumber;
+	}
+	public void setRoomNumber(String roomNumber) {
+		this.roomNumber = roomNumber;
 	}
 	
 }

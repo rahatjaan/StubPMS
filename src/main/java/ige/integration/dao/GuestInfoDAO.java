@@ -345,9 +345,10 @@ public interface GuestInfoDAO extends JpaDao<GuestInfo> {
 	 */
 	public Set<GuestInfo> findGuestInfoByLastName(String lastName_1, int startResult, int maxRows) throws DataAccessException;
 	
-	public GuestInfo findGuestInfoByConfirmationNumbers(String confirmationNumber);
-	public GuestStayInfo findGuestInfoByLastNameCreditCard(String lastName, String creditCard);
-	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber);
-	public GuestStayInfo findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException;
+	public Object findGuestInfoByConfirmationNumbers(String confirmationNumber);
+	public Object findGuestInfoByLastNameCreditCard(String lastName, String creditCard);
+	public Object findGuestInfoByLastNameRoom(String lastName, String room);
+	public Object findGuestInfoByLoyaltyNumber(String loyaltyNumber);
+	public Object findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException;
 
 }

@@ -24,7 +24,7 @@
 					<th class="thead"><fmt:message key="guestinfo.fulladdress.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.mobilenumber.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.rateplan.title"/></th>
-					<th class="thead"><fmt:message key="guestinfo.hhnumber.title"/></th>
+					<th class="thead"><fmt:message key="guestinfo.loyaltyNumber.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.confirmationnumber.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.membershipnumber.title"/></th>
 					<th class="thead"><fmt:message key="guestinfo.bonuscode.title"/></th>

@@ -10,6 +10,7 @@
       			<class>ige.integration.domain.GuestInfo</class>
       			<class>ige.integration.domain.GuestTransactions</class>
       			<class>ige.integration.domain.GuestStayInfo</class>
+      			class>ige.integration.domain.ReportProblem</class>
    			<exclude-unlisted-classes>true</exclude-unlisted-classes>
 		</persistence-unit>
 

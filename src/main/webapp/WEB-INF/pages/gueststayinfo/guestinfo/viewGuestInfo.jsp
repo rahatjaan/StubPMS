@@ -80,7 +80,7 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
-							<fmt:message key="guestinfo.hhnumber.title"/>:
+							<fmt:message key="guestinfo.loyaltyNumber.title"/>:
 						</td>
 						<td>
 							${guestinfo.loyaltyNumber}

@@ -5,14 +5,15 @@ import ige.integration.domain.GuestInfo;
 import ige.integration.domain.GuestStayInfo;
 import ige.integration.domain.GuestTransactions;
 import ige.integration.domain.HotelFolio;
+import ige.integration.domain.ReportProblem;
 import ige.integration.domain.ReservationDetails;
 import ige.integration.messages.Messages;
 import ige.integration.service.GuestInfoService;
 import ige.integration.service.GuestStayInfoService;
 import ige.integration.service.GuestTransactionsService;
+import ige.integration.service.ReportProblemService;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -42,6 +43,9 @@ public class SoapOperationService {
     
     @Autowired
 	private GuestTransactionsService guestTransactionsService;
+    
+    @Autowired
+	private ReportProblemService reportProblemService;
 
     @WebMethod(operationName = "sayHello")
     public String sayHelloToTheUser(@WebParam(name = "name") String userName) {
@@ -127,23 +131,54 @@ public class SoapOperationService {
     	try{
 	    	String confirmationNumber = resDetails.getConfirmationNumber();
 	    	String lastName = resDetails.getLastName();
-	    	String creditCard = resDetails.getCreditCard();
+	    	String creditCard = resDetails.getMaskedCardNumber();
+	    	String roomNumber = resDetails.getRoomNumber();
+	    	System.out.println("ROOM NUMBER IS: "+roomNumber);
 	    	String loyaltyNumber = resDetails.getLoyaltyCardNumber();
-	    	GuestInfo g = null;
+	    	Object g = null;
 	    	if(null != confirmationNumber && !"".equalsIgnoreCase(confirmationNumber.trim())){
 	    		g = guestInfoService.findGuestInfoByConfirmationNumber(confirmationNumber);
+	    		if(null == g || g.toString().contains("ERROR")){
+	    			gi.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, "Confirmation Number not found.", "reservationLookup"));
+	    			return gi;
+	    		}
 	    	}else if(null != lastName && !"".equalsIgnoreCase(lastName.trim()) && null != creditCard && !"".equalsIgnoreCase(creditCard.trim())){
-	    		g = guestInfoService.findGuestInfoByLastNameCreditCard(lastName,creditCard);
+	    		int length = creditCard.length();
+	    		String cc = creditCard.substring(length-4);
+	    		g = guestInfoService.findGuestInfoByLastNameCreditCard(lastName,cc);
+	    		if(null == g || g.toString().contains("ERROR")){
+	    			gi.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, "Last Name and Masked Number did not match.", "reservationLookup"));
+	    			return gi;
+	    		}
+	    	}else if(null != lastName && !"".equalsIgnoreCase(lastName.trim()) && null != roomNumber && !"".equalsIgnoreCase(roomNumber.trim())){
+	    		System.out.println("ROOOOOOOM");
+	    		g = guestInfoService.findGuestInfoByLastNameRoom(lastName,roomNumber);
+	    		if(null == g || g.toString().contains("ERROR")){
+	    			gi.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, "Last Name and Room Number did not match.", "reservationLookup"));
+	    			return gi;
+	    		}
 	    	}else if(null != loyaltyNumber && !"".equalsIgnoreCase(loyaltyNumber.trim())){
 	    		g = guestInfoService.findGuestInfoByLoyaltyNumber(loyaltyNumber);
+	    		if(null == g || g.toString().contains("ERROR")){
+	    			gi.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, "Loyalty Number not found.", "reservationLookup"));
+	    			return gi;
+	    		}
 	    	}
-			Collection c = g.getGuestStayInfos();
+			Collection c = ((GuestInfo) g).getGuestStayInfos();
 			Iterator iter = c.iterator();
 			GuestStayInfo first = (GuestStayInfo) iter.next();
-			gi.setNamePrefix(g.getNamePrefix());
-			gi.setFirstName(g.getLastName());
-			gi.setLastName(g.getLastName());
-			gi.setRoomFeatures("WE DO NOT HAVE THIS FIELD YET.");
+			gi.setNamePrefix(((GuestInfo) g).getNamePrefix());
+			if(null == gi.getNamePrefix() || "".equalsIgnoreCase(gi.getNamePrefix()))
+				gi.setNamePrefix("   ");
+			gi.setFirstName(((GuestInfo) g).getFirstName());
+			if(null == gi.getFirstName() || "".equalsIgnoreCase(gi.getFirstName()))
+				gi.setFirstName("   ");
+			gi.setLastName(((GuestInfo) g).getLastName());
+			if(null == gi.getLastName() || "".equalsIgnoreCase(gi.getLastName()))
+				gi.setLastName("   ");
+			gi.setRoomFeatures(first.getRoomFeatures());
+			if(null == gi.getRoomFeatures() || "".equalsIgnoreCase(gi.getRoomFeatures()))
+				gi.setRoomFeatures("   ");
 			String card = first.getCardNumber();
 			if(null != card && !"".equalsIgnoreCase(card.trim())){
 				if(4 < card.length()){
@@ -153,7 +188,11 @@ public class SoapOperationService {
 				}
 			}
 			gi.setMaskedCardNumber(card);
+			if(null == gi.getMaskedCardNumber() || "".equalsIgnoreCase(gi.getMaskedCardNumber()))
+				gi.setMaskedCardNumber("   ");
 			gi.setCurrencyCode(first.getCurrencyCode());
+			if(null == gi.getCurrencyCode() || "".equalsIgnoreCase(gi.getCurrencyCode()))
+				gi.setCurrencyCode("   ");
 			gi.setTotalGuests(first.getNumberOfAdult()+first.getNumberOfChildren());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			
@@ -168,24 +207,36 @@ public class SoapOperationService {
 			System.out.println(aDate+"ARRIVAL DATEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 			System.out.println(dDate+"DEPARTURE DATEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE");
 			gi.setStayDates(aDate+"   -   "+dDate);
-			gi.setLoyaltyCardNumber(g.getLoyaltyNumber());
+			if(null == gi.getStayDates() || "".equalsIgnoreCase(gi.getStayDates()))
+				gi.setStayDates("   ");
+			gi.setLoyaltyCardNumber(((GuestInfo) g).getLoyaltyNumber());
+			if(null == gi.getLoyaltyCardNumber() || "".equalsIgnoreCase(gi.getLoyaltyCardNumber()))
+				gi.setLoyaltyCardNumber("   ");
 			if(null != first.getTotalBill())
-				gi.setTotalBill(first.getTotalBill().toString());
-			gi.setSpecialRequests("WE DO NOT HAVE THIS FIELD YET.");
+				gi.setTotalForStay(first.getTotalBill().toString());
+			if(null == gi.getTotalForStay() || "".equalsIgnoreCase(gi.getTotalForStay()))
+				gi.setTotalForStay("0.0");
+			gi.setSpecialRequests(first.getSpecialRequest());
+			if(null == gi.getSpecialRequests() || "".equalsIgnoreCase(gi.getSpecialRequests()))
+				gi.setSpecialRequests("   ");
 			if(null != confirmationNumber){
-				gi.setCreditCard(creditCard);
+				gi.setConfirmationNumber(confirmationNumber);
 			}
+			if(null == gi.getConfirmationNumber() || "".equalsIgnoreCase(gi.getConfirmationNumber()))
+				gi.setConfirmationNumber("   ");
 			if(null != first.getCardNumber() && !"".equalsIgnoreCase(first.getCardNumber().trim())){
 				int len = first.getCardNumber().length();
 				if(5 < len){
-					gi.setCreditCard(first.getCardNumber().substring(first.getCardNumber().length()-4));
+					gi.setMaskedCardNumber(first.getCardNumber().substring(first.getCardNumber().length()-4));
 				}else{
-					gi.setCreditCard(first.getCardNumber());
+					gi.setMaskedCardNumber(first.getCardNumber());
 				}
 			}
     	}catch(NullPointerException e){
+    		e.printStackTrace();
     		gi.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "reservationLookup"));
     	}catch(Exception e){
+    		e.printStackTrace();
     		gi.setError(returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.RESERVATION_REASON, Messages.RESERVATION_DESCRIPTION, "reservationLookup"));
     	}
     	return gi;
@@ -304,7 +355,12 @@ public class SoapOperationService {
     	GuestStayInfo gi = null;
 		try{
 			System.out.println("RESERVATION NUMBER IS: "+reservationNumber);
-			gi = guestInfoService.findGuestByReservationNumber(reservationNumber);
+			Object obj = guestInfoService.findGuestByReservationNumber(reservationNumber);
+			if(null == obj || obj.toString().contains("ERROR")){
+				hotelFolio.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, "Reservation Number not found.", "reservationLookup"));
+    			return hotelFolio;
+			}
+			gi = (GuestStayInfo) obj;
 			System.out.println("GOT THE RESULT");
 			if(null == gi){
 				System.out.println("NULLLLLLLLLLLLLLLLLLLL");
@@ -312,7 +368,7 @@ public class SoapOperationService {
 		}catch(NullPointerException e1){
 			System.out.println("EXCEPTION 1");
 			hotelFolio.setError(returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, Messages.DATABASE_DESCRIPTION, "HotelFolio"));
-			
+			return hotelFolio;
 		}catch(IllegalArgumentException e2){
 			System.out.println("EXCEPTION 2");
 			hotelFolio.setError(returnFaultObject(Messages.FAULT_CODE_CREDENTIALS, Messages.CREDENTIALS_MESSAGE, Messages.FOLIO_REASON, Messages.FOLIO_DESCRIPTION, "HotelFolio"));
@@ -338,6 +394,31 @@ public class SoapOperationService {
 		}
 		System.out.println("BEFORE RETURN STATEMENT");
     	return hotelFolio;
+    }
+    
+    @WebMethod(operationName = "paymentCardProcessing")
+    public String[] paymentCardProcessing(@WebParam(name = "terminalId") String terminalId,@WebParam(name = "confirmationNumber") String confirmationNumber,@WebParam(name = "processType") String processType,@WebParam(name = "paymentType") String paymentType,@WebParam(name = "cardType") String cardType,@WebParam(name = "cardHolderName") String cardHolderName,@WebParam(name = "cardNumber") String cardNumber,@WebParam(name = "creditCardExpirationDate") String creditCardExpirationDate) {
+    	String [] response = new String[2];
+    	
+    	return response;
+    }
+    
+    @WebMethod(operationName = "reportProblem")
+    public String reportProblem(@WebParam(name = "lastName") String lastName,@WebParam(name = "confirmationNumber") String confirmationNumber,@WebParam(name = "roomNumber") String roomNumber,@WebParam(name = "problemID") String problemID,@WebParam(name = "problemMessage") String problemMessage) {
+    	try{
+    		System.out.println("1");
+	    	ReportProblem rp = new ReportProblem(lastName,confirmationNumber,roomNumber,problemID,problemMessage);
+	    	System.out.println("2");
+	    	ReportProblem temp = reportProblemService.saveReportProblem(rp);
+	    	if(null != temp && null != temp.getId()){
+	    		System.out.println("4");
+	    		return "<status>success</status>";
+	    	}
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, "Can not report the problem right now, please try later!", "reportProblem");
+    	}
+    	return "<status>failure</status>";
     }
     
     

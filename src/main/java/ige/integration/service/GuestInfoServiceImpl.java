@@ -245,24 +245,53 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 		return guestInfoDAO.findGuestInfoByEmail(emailAddress);
 	}
 	
-	public GuestInfo findGuestInfoByConfirmationNumber(String confirmationNumber) {
+	public Object findGuestInfoByConfirmationNumber(String confirmationNumber) {
 		return guestInfoDAO.findGuestInfoByConfirmationNumbers(confirmationNumber);
 	}
 	
-	public GuestInfo findGuestInfoByLastNameCreditCard(String lastName, String creditCard) {
-		GuestStayInfo gsi = guestInfoDAO.findGuestInfoByLastNameCreditCard(lastName, creditCard);
-		GuestInfo gi = new GuestInfo();
-		Set<GuestStayInfo> g = new HashSet<GuestStayInfo>();
-		g.add(gsi);
-		gi.setGuestStayInfos(g);
-		return gi;
+	public Object findGuestInfoByLastNameCreditCard(String lastName, String creditCard) {
+		try{
+			Object check = guestInfoDAO.findGuestInfoByLastNameCreditCard(lastName, creditCard);
+			GuestStayInfo gsi = null;
+			if(null != check && !check.toString().contains("ERROR")){
+				gsi = (GuestStayInfo) check;
+			}else{
+				return "ERROR";
+			}
+			GuestInfo gi = new GuestInfo();
+			Set<GuestStayInfo> g = new HashSet<GuestStayInfo>();
+			g.add(gsi);
+			gi.setGuestStayInfos(g);
+			return gi;
+		}catch(Exception e){
+			return "ERROR";
+		}
 	}
 	
-	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber) {
+	public Object findGuestInfoByLastNameRoom(String lastName, String room) {
+		try{
+			Object check = guestInfoDAO.findGuestInfoByLastNameRoom(lastName, room);
+			GuestStayInfo gsi = null;
+			if(null != check && !check.toString().contains("ERROR")){
+				gsi = (GuestStayInfo) check;
+			}else{
+				return "ERROR";
+			}
+			GuestInfo gi = new GuestInfo();
+			Set<GuestStayInfo> g = new HashSet<GuestStayInfo>();
+			g.add(gsi);
+			gi.setGuestStayInfos(g);
+			return gi;
+		}catch(Exception e){
+			return "ERROR";
+		}
+	}
+	
+	public Object findGuestInfoByLoyaltyNumber(String loyaltyNumber) {
 		return guestInfoDAO.findGuestInfoByLoyaltyNumber(loyaltyNumber);
 	}
 	
-	public GuestStayInfo findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException{
+	public Object findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException{
 		return guestInfoDAO.findGuestByReservationNumber(reservationNumber);
 	}
 }

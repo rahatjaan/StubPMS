@@ -764,57 +764,107 @@ public class GuestInfoDAOImpl extends AbstractJpaDao<GuestInfo> implements
 		}
 	}
 
-	public GuestInfo findGuestInfoByConfirmationNumbers(
+	public Object findGuestInfoByConfirmationNumbers(
 			String confirmationNumber) {
 		try{
 			Query query = createNamedQuery("findGuestInfoByConfirmationNumber", -1, -1, confirmationNumber);
-			return (GuestInfo) (query.getSingleResult());
+			if(null != query.getSingleResult()){
+				return (GuestInfo) (query.getSingleResult());		
+			}else{
+				return "ERROR";
+			}
+		}catch(NullPointerException e){
+			return "ERROR";
 		}catch(Exception e){
-			return null;
+			return "ERROR";
 		}
 	}
 
-	public GuestStayInfo findGuestInfoByLastNameCreditCard(String lastName,
+	public Object findGuestInfoByLastNameCreditCard(String lastName,
 			String creditCard) {
 		try{
 			Query query = createNamedQuery("findGuestInfoByLastName", -1, -1, lastName);
+			if(null == query.getResultList()){
+				return "ERROR";
+			}
 			List<GuestInfo> li = query.getResultList();
 			for(GuestInfo gi: li){
 				Collection c = gi.getGuestStayInfos();
 	    		Iterator iter = c.iterator();
-	    		GuestStayInfo first = (GuestStayInfo) iter.next();
-	    		int length = first.getCardNumber().length();
-	    		System.out.println(first.getCardNumber().substring(length-4));
-	    		if(5 < length){
-					if(first.getCardNumber().substring(length-4).equalsIgnoreCase(creditCard)){
-						return first;
-					}
+	    		while(iter.hasNext()){
+		    		GuestStayInfo first = (GuestStayInfo) iter.next();
+		    		int length = first.getCardNumber().length();
+		    		System.out.println(first.getCardNumber().substring(length-4));
+		    		if(5 < length){
+		    			System.out.println("CREDITCARD AND CARD: "+first.getCardNumber().substring(length-4)+","+creditCard);
+						if(first.getCardNumber().substring(length-4).equalsIgnoreCase(creditCard)){
+							System.out.println("CREDITCARD AND CARD MATCHED: "+first.getCardNumber()+","+creditCard);
+							return first;
+						}
+		    		}
 	    		}
 			}
-			return null;
+			return "ERROR";
+		}catch(NullPointerException e){
+			return "ERROR";
 		}catch(Exception e){
-			return null;
-		}
-	}
-
-	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber) {
-		try{
-			Query query = createNamedQuery("findGuestInfoByHhNumber", -1, -1, loyaltyNumber);
-			return (GuestInfo) (query.getSingleResult());
-		}catch(Exception e){
-			return null;
+			return "ERROR";
 		}
 	}
 	
-	public GuestStayInfo findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException {
+	public Object findGuestInfoByLastNameRoom(String lastName,
+			String room) {
+		try{
+			Query query = createNamedQuery("findGuestInfoByLastName", -1, -1, lastName);
+			if(null == query.getResultList()){
+				return "ERROR";
+			}
+			List<GuestInfo> li = query.getResultList();
+			for(GuestInfo gi: li){
+				Collection c = gi.getGuestStayInfos();
+	    		Iterator iter = c.iterator();
+	    		while(iter.hasNext()){
+		    		GuestStayInfo first = (GuestStayInfo) iter.next();
+						if(first.getRoomNumber().equalsIgnoreCase(room)){
+							return first;
+						}
+	    		}
+			}
+			return "ERROR";
+		}catch(NullPointerException e){
+			return "ERROR";
+		}catch(Exception e){
+			return "ERROR";
+		}
+	}
+
+	public Object findGuestInfoByLoyaltyNumber(String loyaltyNumber) {
+		try{
+			Query query = createNamedQuery("findGuestInfoByHhNumber", -1, -1, loyaltyNumber);
+			if(null != query.getSingleResult()){
+				return (GuestInfo) (query.getSingleResult());				
+			}else{
+				return "ERROR";
+			}
+		}catch(NullPointerException e){
+			return "ERROR";
+		}catch(Exception e){
+			return "ERROR";
+		}
+	}
+	
+	public Object findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException {
 		Query query = createNamedQuery("findGuestInfoByReservationNumber", -1, -1, reservationNumber);
 		System.out.println("NO ERROR YETTTTTTTTTTTTT");
+		if(null == query.getResultList()){
+			return "ERROR";
+		}
 		List<GuestStayInfo> g = query.getResultList();
 		for(GuestStayInfo a:g){
 			if(reservationNumber.equalsIgnoreCase(a.getFolioNumber())){
 				return a;
 			}
 		}
-		return null;
+		return "ERROR";
 	}
 }

@@ -219,6 +219,16 @@ public class GuestStayInfo implements Serializable {
 	@XmlElement
 	Boolean checkedOut;
 	
+	@Column(name = "roomFeatures", length = 1000)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String roomFeatures;
+	
+	@Column(name = "specialRequest", length = 1000)
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	String specialRequest;
+	
 
 	/**
 	 */
@@ -602,4 +612,21 @@ public class GuestStayInfo implements Serializable {
 	public void setCheckedOut(Boolean checkedOut) {
 		this.checkedOut = checkedOut;
 	}
+
+	public String getRoomFeatures() {
+		return roomFeatures;
+	}
+
+	public void setRoomFeatures(String roomFeatures) {
+		this.roomFeatures = roomFeatures;
+	}
+
+	public String getSpecialRequest() {
+		return specialRequest;
+	}
+
+	public void setSpecialRequest(String specialRequest) {
+		this.specialRequest = specialRequest;
+	}
+	
 }

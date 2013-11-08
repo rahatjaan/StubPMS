@@ -247,6 +247,8 @@ public class GuestStayInfoServiceImpl implements GuestStayInfoService {
 				existingGuestStayInfo.setCreditcardExpirationDate(gueststayinfo.getCreditcardExpirationDate());
 				existingGuestStayInfo.setRateCode(gueststayinfo.getRateCode());
 				existingGuestStayInfo.setReservationType(gueststayinfo.getReservationType());
+				existingGuestStayInfo.setRoomFeatures(gueststayinfo.getRoomFeatures());
+				existingGuestStayInfo.setSpecialRequest(gueststayinfo.getSpecialRequest());
 			}
 			gueststayinfo = guestStayInfoDAO.store(existingGuestStayInfo);
 		} else {

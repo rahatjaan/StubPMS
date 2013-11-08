@@ -76,15 +76,6 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
-							<fmt:message key="guestinfo.hhnumber.title"/>:
-						</td>
-						<td>
-							<form:input id="guestinfo_hhNumber" path="loyaltyNumber" cssStyle="width:300px;"/>
-							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "guestinfo_hhNumber",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="guestinfo.hhnumber.help"/>"}})); </script>
-						</td>
-					</tr>
-					<tr>
-						<td class="label" valign="top">
 							<fmt:message key="guestinfo.confirmationnumber.title"/>:
 						</td>
 						<td>

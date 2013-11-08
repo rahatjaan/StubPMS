@@ -62,9 +62,10 @@ public interface GuestInfoService {
 	public GuestInfo findGuestByEmail(String emailAddress);
 	
 	
-	public GuestInfo findGuestInfoByConfirmationNumber(String confirmationNumber);
-	public GuestInfo findGuestInfoByLastNameCreditCard(String lastName, String creditCard);
-	public GuestInfo findGuestInfoByLoyaltyNumber(String loyaltyNumber);
-	public GuestStayInfo findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException;
+	public Object findGuestInfoByConfirmationNumber(String confirmationNumber);
+	public Object findGuestInfoByLastNameCreditCard(String lastName, String creditCard);
+	public Object findGuestInfoByLastNameRoom(String lastName, String room);
+	public Object findGuestInfoByLoyaltyNumber(String loyaltyNumber);
+	public Object findGuestByReservationNumber(String reservationNumber) throws IllegalArgumentException, NullPointerException;
 	
 }

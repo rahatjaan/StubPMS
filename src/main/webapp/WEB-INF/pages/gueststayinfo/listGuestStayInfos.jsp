@@ -20,6 +20,8 @@
 					<th class="thead"><fmt:message key="gueststayinfo.id.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.roomnumber.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.floornumber.title"/></th>
+					<th class="thead"><fmt:message key="gueststayinfo.roomFeatures.title"/></th>
+					<th class="thead"><fmt:message key="gueststayinfo.specialRequest.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.arrivaldate.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.numberOfDays.title"/></th>
 					<th class="thead"><fmt:message key="gueststayinfo.departuredate.title"/></th>
@@ -69,6 +71,16 @@
 					<td nowrap="nowrap" class="tabletd">
 						
 							${current.floorNumber}
+						&nbsp;
+					</td>
+					<td nowrap="nowrap" class="tabletd">
+						
+							${current.roomFeatures}
+						&nbsp;
+					</td>
+					<td nowrap="nowrap" class="tabletd">
+						
+							${current.specialRequest}
 						&nbsp;
 					</td>
 					<td nowrap="nowrap" class="tabletd">

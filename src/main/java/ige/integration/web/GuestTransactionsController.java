@@ -6,6 +6,8 @@ import ige.integration.domain.GuestStayInfo;
 import ige.integration.domain.GuestTransactions;
 import ige.integration.service.GuestTransactionsService;
 
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -127,8 +129,9 @@ public class GuestTransactionsController {
 	@RequestMapping("/newGuestTransactions")
 	public ModelAndView newGuestTransactions() {
 		ModelAndView mav = new ModelAndView();
-
-		mav.addObject("guesttransactions", new GuestTransactions());
+		GuestTransactions gt = new GuestTransactions();
+		gt.setTransactionDate(Calendar.getInstance());
+		mav.addObject("guesttransactions", gt);
 		mav.addObject("newFlag", true);
 		mav.setViewName("guesttransactions/editGuestTransactions.jsp");
 

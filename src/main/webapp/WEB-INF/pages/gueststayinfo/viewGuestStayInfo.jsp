@@ -43,6 +43,24 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
+							<fmt:message key="gueststayinfo.roomFeatures.title"/>:
+						</td>
+						<td>
+							${gueststayinfo.roomFeatures}
+						&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td class="label" valign="top">
+							<fmt:message key="gueststayinfo.specialRequest.title"/>:
+						</td>
+						<td>
+							${gueststayinfo.specialRequest}
+						&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td class="label" valign="top">
 							<fmt:message key="gueststayinfo.arrivaldate.title"/>:
 						</td>
 						<td>
@@ -263,33 +281,6 @@
 						</td>
 						<td>
 							${gueststayinfo.guestInfo.ratePlan}
-						&nbsp;
-						</td>
-					</tr>
-					<tr>
-						<td  class="label">
-							<fmt:message key="guestinfo.hhnumber.title"/>:
-						</td>
-						<td>
-							${gueststayinfo.guestInfo.hhNumber}
-						&nbsp;
-						</td>
-					</tr>
-					<tr>
-						<td  class="label">
-							<fmt:message key="guestinfo.al.title"/>:
-						</td>
-						<td>
-							${gueststayinfo.guestInfo.al}
-						&nbsp;
-						</td>
-					</tr>
-					<tr>
-						<td  class="label">
-							<fmt:message key="guestinfo.bonusal.title"/>:
-						</td>
-						<td>
-							${gueststayinfo.guestInfo.bonusAl}
 						&nbsp;
 						</td>
 					</tr>

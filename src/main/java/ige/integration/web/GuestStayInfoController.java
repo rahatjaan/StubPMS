@@ -405,6 +405,10 @@ public class GuestStayInfoController {
 	public String saveGuestStayInfo(@ModelAttribute GuestStayInfo gueststayinfo) {
 		GuestInfo guestInfo = guestInfoService.findGuestInfoByPrimaryKey(gueststayinfo.getGuestInfo().getId());
 		gueststayinfo.setGuestInfo(guestInfo);
+		System.out.println("ROOM FEATURES: "+gueststayinfo.getRoomFeatures());
+		System.out.println("SPECIAL REQUESTS: "+gueststayinfo.getSpecialRequest());
+		gueststayinfo.setRoomFeatures(gueststayinfo.getRoomFeatures());
+		gueststayinfo.setSpecialRequest(gueststayinfo.getSpecialRequest());
 		guestStayInfoService.saveGuestStayInfo(gueststayinfo);
 		return "forward:/indexGuestStayInfo";
 	}

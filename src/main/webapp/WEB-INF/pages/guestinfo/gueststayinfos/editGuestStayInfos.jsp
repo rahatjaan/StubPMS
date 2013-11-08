@@ -41,6 +41,24 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
+							<fmt:message key="gueststayinfo.roomFeatures.title"/>:
+						</td>
+						<td>
+							<form:input id="gueststayinfo_roomFeatures" path="roomFeatures" cssStyle="width:300px;"/>
+							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "gueststayinfo_roomFeatures",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="gueststayinfo.roomFeatures.help"/>"}})); </script>
+						</td>
+					</tr>
+					<tr>
+						<td class="label" valign="top">
+							<fmt:message key="gueststayinfo.specialRequest.title"/>:
+						</td>
+						<td>
+							<form:input id="gueststayinfo_specialRequest" path="specialRequest" cssStyle="width:300px;"/>
+							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "gueststayinfo_specialRequest",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="gueststayinfo.specialRequest.help"/>"}})); </script>
+						</td>
+					</tr>
+					<tr>
+						<td class="label" valign="top">
 							<fmt:message key="gueststayinfo.arrivaldate.title"/>:
 						</td>
 						<td>
