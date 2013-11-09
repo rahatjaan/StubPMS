@@ -421,6 +421,20 @@ public class SoapOperationService {
     	return "<status>failure</status>";
     }
     
+    @WebMethod(operationName = "getGuestStayInfo")
+    public Object getGuestStayInfo(@WebParam(name = "lastName") String lastName,@WebParam(name = "email") String email,@WebParam(name = "roomNumber") String roomNumber) {
+    	GuestInfo gi = null;
+    	try{
+    		gi = guestInfoService.findGuestByEmailLastNameRoom(lastName, email, roomNumber);
+    		Collection c = gi.getGuestStayInfos();
+    		Iterator iter = c.iterator();
+    		return (GuestStayInfo) iter.next();
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return returnFaultObject(Messages.FAULT_CODE_DATABASE, Messages.DATABASE_MESSAGE, Messages.DATABASE_REASON, "Can not find guest stay information against given lastName, email and roomNumber!", "getGuestStayInfo");
+    	}
+    }
+    
     
     private String returnFaultObject(String code, String message, String reason, String description, String service){
     	String msg = "<soap:Fault xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'"; 

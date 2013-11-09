@@ -164,10 +164,12 @@ public class GuestInfoServiceImpl implements GuestInfoService {
 			System.out.println("FOUND");
 			if (existingGuestInfo != guestinfo) {
 				existingGuestInfo.setId(guestinfo.getId());
+				existingGuestInfo.setNamePrefix(guestinfo.getNamePrefix());
 				existingGuestInfo.setFirstName(guestinfo.getFirstName());
 				existingGuestInfo.setLastName(guestinfo.getLastName());
 				existingGuestInfo.setFullAddress(guestinfo.getFullAddress());
 				existingGuestInfo.setMobileNumber(guestinfo.getMobileNumber());
+				existingGuestInfo.setEmail(guestinfo.getEmail());
 				existingGuestInfo.setRatePlan(guestinfo.getRatePlan());
 				existingGuestInfo.setLoyaltyNumber(guestinfo.getLoyaltyNumber());
 				existingGuestInfo.setConfirmationNumber(guestinfo.getConfirmationNumber());

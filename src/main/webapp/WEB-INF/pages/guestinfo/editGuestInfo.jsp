@@ -95,6 +95,15 @@
 					</tr>
 					<tr>
 						<td class="label" valign="top">
+							<fmt:message key="guestinfo.loyaltyNumber.title"/>:
+						</td>
+						<td>
+							<form:input id="guestinfo_loyaltyNumber" path="loyaltyNumber" cssStyle="width:300px;"/>
+							<script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : "guestinfo_loyaltyNumber",widgetType : "dijit.form.ValidationTextBox",widgetAttrs : {promptMessage: "<fmt:message key="guestinfo.loyaltyNumber.help"/>"}})); </script>
+						</td>
+					</tr>
+					<tr>
+						<td class="label" valign="top">
 							<fmt:message key="guestinfo.membershipnumber.title"/>:
 						</td>
 						<td>
