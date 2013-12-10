@@ -435,6 +435,22 @@ public class SoapOperationService {
     	}
     }
     
+    @WebMethod(operationName = "guestSignature")
+    public String guestSignature(@WebParam(name = "terminalId") String terminalId, @WebParam(name = "confirmationNumber") String confirmationNumber,@WebParam(name = "signatureFile") String signatureFile) {
+    	try{
+	    	byte[] sig = signatureFile.getBytes();
+	    	GuestInfo gi = (GuestInfo) guestInfoService.findGuestInfoByConfirmationNumber(confirmationNumber);
+	    	if(null != gi){
+	    		gi.setSignature(sig);
+	    		guestInfoService.saveGuestInfo(gi);
+	    		return "<terminalId>"+terminalId+"</terminalId><confirmationNumber>"+confirmationNumber+"</confirmationNumber><status>"+"success"+"</status>";
+	    	}
+    	}catch(Exception e){
+    		return "<terminalId>"+terminalId+"</terminalId><confirmationNumber>"+confirmationNumber+"</confirmationNumber><status>"+"failure"+"</status>";
+    	}
+    	return "<terminalId>"+terminalId+"</terminalId><confirmationNumber>"+confirmationNumber+"</confirmationNumber><status>"+"failure"+"</status>";
+    }
+    
     
     private String returnFaultObject(String code, String message, String reason, String description, String service){
     	String msg = "<soap:Fault xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/'"; 

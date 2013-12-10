@@ -2,6 +2,7 @@ package ige.integration.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.util.Calendar;
 import java.util.Set;
 
@@ -229,6 +230,7 @@ public class GuestStayInfo implements Serializable {
 	@XmlElement
 	String specialRequest;
 	
+	
 
 	/**
 	 */
@@ -241,6 +243,8 @@ public class GuestStayInfo implements Serializable {
 	@OneToMany(mappedBy = "guestStayInfo", cascade = { CascadeType.REMOVE }, fetch = FetchType.EAGER)
 	@XmlElement(name = "", namespace = "")
 	java.util.Set<ige.integration.domain.GuestTransactions> guestTransactionses;
+	
+	
 
 	/**
 	 */

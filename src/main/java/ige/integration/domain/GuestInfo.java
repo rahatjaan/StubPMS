@@ -1,6 +1,7 @@
 package ige.integration.domain;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -157,6 +158,21 @@ public class GuestInfo implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	@XmlElement
 	String bonusCode;
+	
+	@Column(name = "signature")
+	@Basic(fetch = FetchType.EAGER)
+	@XmlElement
+	byte[] signature;
+	
+
+	public byte[] getSignature() {
+		return signature;
+	}
+
+	public void setSignature(byte[] signature) {
+		this.signature = signature;
+	}
+	
 	/**
 	 */
 
